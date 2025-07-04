@@ -1,0 +1,48 @@
+.Verfiy_product h2,
+.Verfiy_product ul li {
+  color: var(--color-white);
+}
+.scan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.scan img {
+  width:16rem;
+  height: 16rem;
+  border-radius: 10px;
+}
+.Verfiy_product ul {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.Verfiy_product ul li {
+  font-size: 16px;
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.verfiyLogo{
+    place-content: center;
+    text-align: center;
+}
+.verfiyLogo img{
+    width: 80%;
+}
+.social svg{
+    margin:40px 20px;
+    color: var(--color-blue);
+    font-size: 50px;
+filter: drop-shadow(0 2px 4px rgba(188, 113, 113, 0.688));    cursor: pointer;
+}
+.Verfiy_product .row{
+    justify-content: space-between;
+    
+}
+.Verfiy_product {
+  background: rgba(38,54,132,0.18);
+  backdrop-filter: blur(4px);
+  border-radius: 24px;
+  box-shadow: 0 4px 32px 0 rgba(38,54,132,0.10);
+  padding: 32px 18px;
+}

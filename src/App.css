@@ -1,0 +1,65 @@
+:root {
+  --color-white: #ffffff;
+  --color-blue: #99222a;
+  --color-blue2:#263684;
+}
+
+body{
+    background-color: #263684 !important;
+}
+
+@font-face {
+  font-family: 'LittleBubble';
+  src: url('./assets/Fonts/LittleBubble-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RoundedBlackRegular';
+  src: url('./assets/Fonts/Rounds Black.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NunitoBlack';
+  src: url('./assets/Fonts/static/Nunito-Black.ttf') format('opentype');
+  font-style: normal;
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'NunitoSemiBold';
+  src: url('./assets/Fonts/Nunito-VariableFont_wght.ttf') format('opentype');
+  font-style: normal;
+  font-weight: 600;
+}
+
+.left {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateX(-2%);
+  transition: all 1.5s;
+}
+.right {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateX(2%);
+  transition: all 1.5s;
+}
+.hidden {
+  opacity: 0;
+  filter: blur(4px);
+  transition: all 1.5s;
+}
+.top {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(30%);
+  transition: all 1.5s;
+}
+.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+} 

@@ -1,0 +1,14 @@
+.Headerr{
+    height: 80vh;
+    /* background-color:#99222a; */
+}
+.Headerr video{
+    width: 100%;
+    height: 100vh;
+    margin-bottom: 20px;
+}
+@media screen and (max-width:750px) {
+    .Headerr video{
+        height: 31.5vh;
+    }
+}
