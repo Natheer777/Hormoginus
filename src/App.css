@@ -5,7 +5,7 @@
 }
 
 body{
-    background-color: #263684 !important;
+  background: -webkit-linear-gradient(90deg, #263684 , #1d2a5b );
 }
 
 @font-face {

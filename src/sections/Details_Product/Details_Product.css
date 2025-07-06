@@ -2,9 +2,8 @@
   margin-top: 20px;
 }
 .swiper_product h1 {
-  text-align: center;
   padding-left: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 0;
   font-family: "LittleBubble";
   text-shadow: 0 0 2px white, 0 0 2px white, 0 0 3px white !important;
 }
@@ -23,6 +22,7 @@
     padding-left: 10px;
     font-size: 20px;
     font-family: "NunitoBlack";
+    margin-bottom: 10px;
 }
 
 .swiper-slide {
@@ -72,7 +72,7 @@
 .caliber {
   color: white;
   font-family: "NunitoBlack";
-  margin-top: 15px;
+  margin-top: 5px;
   text-align: center;
 }
 .swiper-slide img {
@@ -295,8 +295,9 @@
   font-size: 20px;
   font-family: "NunitoBlack";
 }
-.how_to_use {
+.how_to_use , .desc-label {
   font-family: "NunitoBlack";
+  font-size: 20px;
 }
 .NunitoSemiBold {
   font-family: "NunitoSemiBold";
@@ -314,4 +315,16 @@
     background-size: contain;
     height: 20vh;
   }
+}
+
+.number-value {
+  font-family: 'RoundedBlackRegular';
+  text-shadow: 0 0 2px white, 0 0 2px white, 0 0 3px white !important;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: calc(1.375rem + 1.5vw);
+}
+.text-content{
+  font-size: 20px;
 }

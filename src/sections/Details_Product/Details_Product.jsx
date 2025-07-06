@@ -29,6 +29,11 @@ const productColors = {
   Bolde250mg: "#6564aa",
 };
 
+function capitalizeFirstLetter(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export default function Details_product() {
   const { productName } = useParams();
   const [productData, setProductData] = useState(null);
@@ -90,6 +95,31 @@ export default function Details_product() {
   const shortDescription = descriptionLines?.slice(0, 2);
   const fullDescription = descriptionLines;
 
+
+  const formatTextWithNumbers = (text, useProductColor = false) => {
+    if (!text) return "";
+    
+
+    const parts = text.split(/(\d+)/);
+    return parts.map((part, index) => {
+      if (/^\d+$/.test(part)) {
+
+        return (
+          <span 
+            key={index} 
+            className="number-value"
+            style={useProductColor ? { color: productColor } : {}}
+          >
+            {part}
+          </span>
+        );
+      } else {
+
+        return <span key={index} className="text-content">{part}</span>;
+      }
+    });
+  };
+
   
   return (
     <>
@@ -121,17 +151,21 @@ export default function Details_product() {
                 <div className="detailsMainProduct">
                   <div>
                     <h1
-                      className="product_name text-xl font-bold mb-2 left"
+                      className="product_name text-xl font-bold  left"
                       style={{ color: productColor }}
                     >
-                      {pname.replace(/-/g, " ")}
+                      {(() => {
+                        const name = pname.replace(/-/g, " ");
+                        const match = name.match(/^[^\d]*/);
+                        return match ? match[0].trim() : name;
+                      })()}
                     </h1>
-                    <p className="sec_name">{sec_name}</p>
+                    <p className="sec_name">{capitalizeFirstLetter(sec_name)}</p>
                     <span className="price left"><span>Price: </span>{price}$</span>
                   </div>
                   <div>
                     <span className="vial right"><span>Vial: </span> {vial}</span>
-                    <p className="caliber right">{caliber}</p>
+                    <p className="caliber right">{formatTextWithNumbers(caliber, true)}</p>
                   </div>
                 </div>
                 <div className="details_product pb-5">
@@ -143,8 +177,32 @@ export default function Details_product() {
                       >
                         <span className="how_use top">Description :</span>{" "}
                         {showFullDescription
-                          ? fullDescription?.join("\n")
-                          : shortDescription?.join("\n")}
+                          ? descriptionLines.map((line, idx) => {
+                              const match = line.match(/^(.*?):(.*)$/);
+                              if (match) {
+                                return (
+                                  <div key={idx}>
+                                    <span className="desc-label">{match[1]}:</span>
+                                    <span> {match[2]}</span>
+                                  </div>
+                                );
+                              } else {
+                                return <div key={idx}>{line}</div>;
+                              }
+                            })
+                          : shortDescription.map((line, idx) => {
+                              const match = line.match(/^(.*?):(.*)$/);
+                              if (match) {
+                                return (
+                                  <div key={idx}>
+                                    <span className="desc-label">{match}:</span>
+                                  
+                                  </div>
+                                );
+                              } else {
+                                return <div key={idx}>{line}</div>;
+                              }
+                            })}
                       </div>
 
                       {descriptionLines.length > 6 && (
