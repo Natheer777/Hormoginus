@@ -81,7 +81,7 @@ export default function Details_product() {
     side_effects,
     how_to_use,
     muscle_gain,
-    sec_name,
+    science_name,
     keep_gains,
     fat_water,
     vid_url,
@@ -90,10 +90,10 @@ export default function Details_product() {
 
   const productColor = productColors[pname] || "#ffffff";
   const descriptionLines = description
-    ?.split("\r\n")
+    ?.split(/\r?\n/)
     .filter((line) => line.trim() !== "");
   const shortDescription = descriptionLines?.slice(0, 2);
-  const fullDescription = descriptionLines;
+  // const fullDescription = descriptionLines;
 
 
   const formatTextWithNumbers = (text, useProductColor = false) => {
@@ -157,10 +157,10 @@ export default function Details_product() {
                       {(() => {
                         const name = pname.replace(/-/g, " ");
                         const match = name.match(/^[^\d]*/);
-                        return match ? match[0].trim() : name;
+                        return match ? match[0].trim().toUpperCase() : name.toUpperCase();
                       })()}
                     </h1>
-                    <p className="sec_name">{capitalizeFirstLetter(sec_name)}</p>
+                    <p className="sec_name">{capitalizeFirstLetter(science_name.replace(/[()]/g, ""))}</p>
                     <span className="price left"><span>Price: </span>{price}$</span>
                   </div>
                   <div>
@@ -178,11 +178,14 @@ export default function Details_product() {
                         <span className="how_use top">Description :</span>{" "}
                         {showFullDescription
                           ? descriptionLines.map((line, idx) => {
-                              const match = line.match(/^(.*?):(.*)$/);
+                              if (line.trim() === "") {
+                                return <br key={idx} />;
+                              }
+                              const match = line.match(/^([^:]+):\s*(.*)$/);
                               if (match) {
                                 return (
                                   <div key={idx}>
-                                    <span className="desc-label">{match[1]}:</span>
+                                    <span className="desc-label">{match[1].trim()}:</span>
                                     <span> {match[2]}</span>
                                   </div>
                                 );
@@ -191,12 +194,13 @@ export default function Details_product() {
                               }
                             })
                           : shortDescription.map((line, idx) => {
-                              const match = line.match(/^(.*?):(.*)$/);
+                              // تحسين regex للتعرف على الكلمات قبل النقطتين
+                              const match = line.match(/^([^:]+):\s*(.*)$/);
                               if (match) {
                                 return (
                                   <div key={idx}>
-                                    <span className="desc-label">{match}:</span>
-                                  
+                                    <span className="desc-label">{match[1].trim()}:</span>
+                                    <span> {match[2]}</span>
                                   </div>
                                 );
                               } else {

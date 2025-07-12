@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import { useEffect } from 'react';
-import { Home , Products } from './pages';
+import { Home, Products } from './pages';
+import Contact from './pages/Contact/Contact';
 function App() {
   useEffect(() => {
     setInterval(() => {
@@ -27,10 +28,11 @@ function App() {
   }, []);
   return (
     <>
-         <Router>
+      <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/:productName" element={<Products />}/>
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="/:productName" element={<Products />} />
         </Routes>
       </Router>
     </>

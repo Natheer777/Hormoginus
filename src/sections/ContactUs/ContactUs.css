@@ -1,0 +1,165 @@
+.contact-section.glass-bg {
+  width: 100%;
+  min-height: 60vh;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0 30px 0;
+  margin: auto;
+}
+
+.contact-container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px 40px 30px;
+}
+
+.contact-title-alt {
+  font-size: 2.5rem;
+  font-family: 'LittleBubble', sans-serif;
+  color: #fff;
+  text-shadow: 0 0 18px #263684, 0 0 8px #fff;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+}
+
+.contact-desc-alt {
+  color: #e0e6ed;
+  font-size: 1.15rem;
+  font-family: 'NunitoSemiBold', sans-serif;
+  margin-bottom: 0;
+  text-align: left;
+  opacity: 0.85;
+}
+
+.contact-form-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-card-alt {
+  background: rgba(255,255,255,0.10);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(38,54,132,0.18), 0 1.5px 8px 0 #26368433;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  padding: 36px 32px 32px 32px;
+  width: 100%;
+  max-width: 420px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  z-index: 2;
+}
+
+.contact-card-title-alt {
+  font-family: 'LittleBubble', sans-serif;
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 0 0 8px #263684, 0 0 2px #fff;
+  margin-bottom: 1.2rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.contact-card-alt form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.contact-card-alt label {
+  font-family: 'NunitoSemiBold', sans-serif;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+  color: #fff;
+  opacity: 0.9;
+}
+
+.contact-card-alt input,
+.contact-card-alt textarea {
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.7);
+  color: #263684;
+  margin-bottom: 0.5rem;
+  font-family: 'NunitoSemiBold', sans-serif;
+  outline: none;
+  transition: box-shadow 0.2s, background 0.2s;
+  box-shadow: 0 1.5px 8px 0 #26368422;
+}
+
+.contact-card-alt input:focus,
+.contact-card-alt textarea:focus {
+  box-shadow: 0 0 0 2px #6ed6ff;
+  background: #fff;
+}
+
+.contact-card-alt textarea {
+  resize: none;
+  min-height: 90px;
+}
+
+.contact-submit-alt {
+  background: linear-gradient(90deg, #263684 60%, #6ed6ff 100%);
+  color: #fff;
+  font-family: 'NunitoBlack', sans-serif;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.8rem 0;
+  margin-top: 0.7rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #26368444;
+  transition: background 0.2s, color 0.2s;
+  letter-spacing: 1px;
+}
+
+.contact-submit-alt:hover {
+  background: linear-gradient(90deg, #6ed6ff 0%, #263684 100%);
+  color: #263684;
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  font-family: 'NunitoBlack', sans-serif;
+  color: #fff;
+  font-size: 1.3rem;
+  background: rgba(38,54,132,0.18);
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 8px #26368444;
+  padding: 2rem 1rem;
+  text-align: center;
+  animation: fadeIn 0.7s;
+}
+
+.success-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #6ed6ff;
+  text-shadow: 0 0 8px #fff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

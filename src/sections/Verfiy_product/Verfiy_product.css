@@ -10,7 +10,13 @@
 .scan img {
   width:16rem;
   height: 16rem;
-  border-radius: 10px;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 32px 0 #6ed6ff55, 0 1.5px 8px 0 #26368433;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.scan img:hover {
+  transform: scale(1.04) rotate(-2deg);
+  box-shadow: 0 8px 40px 0 #6ed6ff99, 0 2px 12px 0 #26368455;
 }
 .Verfiy_product ul {
   margin-top: 20px;
@@ -29,20 +35,39 @@
 .verfiyLogo img{
     width: 80%;
 }
-.social svg{
-    margin:40px 20px;
-    color: var(--color-blue);
-    font-size: 50px;
-filter: drop-shadow(0 2px 4px rgba(188, 113, 113, 0.688));    cursor: pointer;
+.social svg {
+  margin:40px 20px;
+  color: var(--color-blue);
+  font-size: 50px;
+  filter: drop-shadow(0 2px 4px rgba(188, 113, 113, 0.688));
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
 }
+.social svg:hover {
+  transform: scale(1.2) rotate(-8deg);
+  color: #6ed6ff;
+}
+
 .Verfiy_product .row{
     justify-content: space-between;
-    
 }
+
+/* Glassy card for verify product */
 .Verfiy_product {
-  background: rgba(38,54,132,0.18);
-  backdrop-filter: blur(4px);
-  border-radius: 24px;
-  box-shadow: 0 4px 32px 0 rgba(38,54,132,0.10);
-  padding: 32px 18px;
+  background: rgba(38,54,132,0.25);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(38,54,132,0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  padding: 2.5rem 2rem;
+  margin: 2rem auto;
+  max-width: 1000px;
+}
+
+@media (max-width: 991px) {
+  .Verfiy_product {
+    padding: 1.2rem 0.5rem;
+    max-width: 98vw;
+  }
 }

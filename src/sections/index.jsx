@@ -3,3 +3,7 @@ export { default as Header } from "./Header/Header";
 export { default as Footer } from "./Footer/Footer";
 export { default as Details_Product } from "./Details_Product/Details_Product";
 export { default as Verfiy_product } from "./Verfiy_product/Verfiy_product";
+export { default as About_us } from "./About_us/About_us";
+export { default as Comment } from "./Comment/Comment";
+export { default as ContactUs } from "./ContactUs/ContactUs";
+export { default as Products_home } from "./Products_home/Products_home";

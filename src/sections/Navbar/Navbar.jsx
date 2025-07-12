@@ -34,7 +34,7 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li className="nav-item right">
-                  <Link className="nav-link" to="/">
+                  <Link className="nav-link" to="/Contact">
                     <span>Contact</span>
                   </Link>
                 </li>
