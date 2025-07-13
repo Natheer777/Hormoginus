@@ -28,7 +28,7 @@ export default function Comment() {
             <img src="https://i.pravatar.cc/100?img=12" alt="User" className="user-img" />
             <p className="user-comment">
               “Thunder supplements completely transformed my energy levels! Incredible taste and noticeable results.”
-                            <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+              <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
 
             </p>
           </div>
@@ -39,7 +39,7 @@ export default function Comment() {
             <img src="https://i.pravatar.cc/100?img=7" alt="User" className="user-img" />
             <p className="user-comment">
               “I’ve tried many brands, but Thunder stands out in quality and performance. Highly recommend!”
-                            <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+              <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
 
             </p>
           </div>

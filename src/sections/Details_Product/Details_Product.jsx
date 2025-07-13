@@ -8,6 +8,99 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
+// CircularProgress component for inline use
+const CircularProgress = ({
+  size = 32,
+  color = "#007bff",
+  thickness = 4,
+  value, // 0-100, if undefined: indeterminate spinner
+  showValue = false,
+  className = "",
+  ...props
+}) => {
+  const radius = (size - thickness) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const progress = typeof value === "number"
+    ? Math.min(Math.max(value, 0), 100)
+    : undefined;
+  const offset = progress !== undefined
+    ? circumference - (progress / 100) * circumference
+    : circumference * 0.25;
+
+  return (
+    <div
+      className={`circular-progress-wrapper ${className}`}
+      style={{ position: "relative", display: "inline-block", width: size, height: size }}
+      {...props}
+    >
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        style={{ display: "block" }}
+      >
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="#e6e6e6"
+          strokeWidth={thickness}
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke={color}
+          strokeWidth={thickness}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          style={
+            progress === undefined
+              ? {
+                transformOrigin: "center",
+                animation: "circular-rotate 1s linear infinite",
+              }
+              : {
+                transition: "stroke-dashoffset 0.5s ease",
+              }
+          }
+        />
+      </svg>
+      {showValue && progress !== undefined && (
+        <span
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: size,
+            height: size,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: size * 0.3,
+            fontWeight: "bold",
+            color: color,
+            userSelect: "none",
+          }}
+        >
+          {progress}%
+        </span>
+      )}
+      <style>
+        {`
+          @keyframes circular-rotate {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+          }
+        `}
+      </style>
+    </div>
+  );
+};
+
 const productColors = {
   DECA250mg: "#3bb9eb",
   NPP100mg: "#3bb9eb",
@@ -98,15 +191,15 @@ export default function Details_product() {
 
   const formatTextWithNumbers = (text, useProductColor = false) => {
     if (!text) return "";
-    
+
 
     const parts = text.split(/(\d+)/);
     return parts.map((part, index) => {
       if (/^\d+$/.test(part)) {
 
         return (
-          <span 
-            key={index} 
+          <span
+            key={index}
             className="number-value"
             style={useProductColor ? { color: productColor } : {}}
           >
@@ -120,7 +213,7 @@ export default function Details_product() {
     });
   };
 
-  
+
   return (
     <>
       {/* <div
@@ -178,35 +271,35 @@ export default function Details_product() {
                         <span className="how_use top">Description :</span>{" "}
                         {showFullDescription
                           ? descriptionLines.map((line, idx) => {
-                              if (line.trim() === "") {
-                                return <br key={idx} />;
-                              }
-                              const match = line.match(/^([^:]+):\s*(.*)$/);
-                              if (match) {
-                                return (
-                                  <div key={idx}>
-                                    <span className="desc-label">{match[1].trim()}:</span>
-                                    <span> {match[2]}</span>
-                                  </div>
-                                );
-                              } else {
-                                return <div key={idx}>{line}</div>;
-                              }
-                            })
+                            if (line.trim() === "") {
+                              return <br key={idx} />;
+                            }
+                            const match = line.match(/^([^:]+):\s*(.*)$/);
+                            if (match) {
+                              return (
+                                <div key={idx}>
+                                  <span className="desc-label">{match[1].trim()}:</span>
+                                  <span> {match[2]}</span>
+                                </div>
+                              );
+                            } else {
+                              return <div key={idx}>{line}</div>;
+                            }
+                          })
                           : shortDescription.map((line, idx) => {
-                              // تحسين regex للتعرف على الكلمات قبل النقطتين
-                              const match = line.match(/^([^:]+):\s*(.*)$/);
-                              if (match) {
-                                return (
-                                  <div key={idx}>
-                                    <span className="desc-label">{match[1].trim()}:</span>
-                                    <span> {match[2]}</span>
-                                  </div>
-                                );
-                              } else {
-                                return <div key={idx}>{line}</div>;
-                              }
-                            })}
+                            // تحسين regex للتعرف على الكلمات قبل النقطتين
+                            const match = line.match(/^([^:]+):\s*(.*)$/);
+                            if (match) {
+                              return (
+                                <div key={idx}>
+                                  <span className="desc-label">{match[1].trim()}:</span>
+                                  <span> {match[2]}</span>
+                                </div>
+                              );
+                            } else {
+                              return <div key={idx}>{line}</div>;
+                            }
+                          })}
                       </div>
 
                       {descriptionLines.length > 6 && (
@@ -236,30 +329,35 @@ export default function Details_product() {
                   </div>
 
                   <div className="product-details-extra mt-3">
-                    <ul className="list-unstyled">
+                    <ul className="list-unstyled product-attributes-list">
                       {strength && (
-                        <li>
-                          <strong>Strength:</strong> {strength}
+                        <li className="product-attribute-item">
+                          <strong>Strength:</strong>
+                          <CircularProgress value={parseInt(strength, 10)} showValue size={48} color="#007bff" />
                         </li>
                       )}
                       {side_effects && (
-                        <li>
-                          <strong>Side Effects:</strong> {side_effects}
+                        <li className="product-attribute-item">
+                          <strong>Side Effects:</strong>
+                          <CircularProgress value={parseInt(side_effects, 10)} showValue size={48} color="#dc3545" />
                         </li>
                       )}
                       {muscle_gain && (
-                        <li>
-                          <strong>Muscle Gain:</strong> {muscle_gain}
+                        <li className="product-attribute-item">
+                          <strong>Muscle Gain:</strong>
+                          <CircularProgress value={parseInt(muscle_gain, 10)} showValue size={48} color="#28a745" />
                         </li>
                       )}
                       {keep_gains && (
-                        <li>
-                          <strong>Keep Gains:</strong> {keep_gains}
+                        <li className="product-attribute-item">
+                          <strong>Keep Gains:</strong>
+                          <CircularProgress value={parseInt(keep_gains, 10)} showValue size={48} color="#ffc107" />
                         </li>
                       )}
                       {fat_water && (
-                        <li>
-                          <strong>Fat/Water:</strong> {fat_water}
+                        <li className="product-attribute-item">
+                          <strong>Fat/Water:</strong>
+                          <CircularProgress value={parseInt(fat_water, 10)} showValue size={48} color="#17a2b8" />
                         </li>
                       )}
                     </ul>

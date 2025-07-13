@@ -4,9 +4,9 @@
     text-align: center;
     position: relative;
     z-index: 1;
-    padding-bottom: 90px;
+    padding-bottom: 120px;
     padding-top: 20px;
-    background-image: url('../../assets/backGround/picinj2.jpg');
+    background-image: url('../../assets/AboutUsImage/assets_task_01jzy71zdwf6ssbtcbkvkma14k_1752287029_img_1.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -29,10 +29,11 @@
 
 .about-title {
   font-size: 2.8rem;
-  color: #fff;
-  text-shadow: 0 0 18px #263684, 0 0 8px #fff;
   margin-bottom: 1.5rem;
   font-family: 'NunitoBlack';
+  background: linear-gradient(45deg, #ff0000, #ff0080, #8000ff, #0000ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .about-logo .about-img {

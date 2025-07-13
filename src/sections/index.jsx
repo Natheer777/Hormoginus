@@ -7,3 +7,5 @@ export { default as About_us } from "./About_us/About_us";
 export { default as Comment } from "./Comment/Comment";
 export { default as ContactUs } from "./ContactUs/ContactUs";
 export { default as Products_home } from "./Products_home/Products_home";
+export { default as OurTeam } from "./OurTeam/OurTeam";
+export { default as OurProducts } from "./OurProducts/OurProducts";

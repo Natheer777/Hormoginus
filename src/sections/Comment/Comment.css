@@ -1,17 +1,31 @@
 .comment-title {
   text-align: center;
   font-size: 40px;
-  text-shadow: 0px 0px 40px var(--color-blue);
+  /* text-shadow: 0px 0px 40px var(--color-blue); */
   margin-bottom: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-family: 'NunitoBlack';
+  position: relative;
 }
-
-
+.comment-title::after{
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: white;
+  border-radius: 2px;
+}
+/* 
 @keyframes colorFade {
   0%   { color: var(--color-blue); }
   50%  { color: #caebf5; }
   100% { color: var(--color-blue); }
-}
+} */
 
 .comment-title {
   animation: colorFade 3s infinite ease-in-out;

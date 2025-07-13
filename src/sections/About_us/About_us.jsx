@@ -11,11 +11,11 @@ export default function AboutUs() {
                             <img src={Logo} className="about-img" alt="" />
                         </div>
                         <div className="col-xl-6 col-lg-6 about-mission">
-                            <h2 className="about-mission-title">OUR MISSION AND VISION</h2>
+                            {/* <h2 className="about-mission-title">OUR MISSION AND VISION</h2> */}
                         </div>
                     </div>
                     <p className="about-desc mt-4">
-                        The GMP facilities at Black Tiger Pharma enables it to work towards the Vision to achieve a meaningful position in India & across the globe. We intend to expand across the Indian subcontinent in a planned manner to achieve our vision.
+                    HORMOGENUS is a pharmaceutical company dedicated to the research, development, and production of high-quality steroid formulations. With a strong focus on innovation and scientific excellence, we strive to deliver reliable and effective products that support therapeutic treatments and performance enhancement in a safe and responsible manner.
                     </p>
                 </div>
             </div>
