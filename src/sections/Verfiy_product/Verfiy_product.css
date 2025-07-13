@@ -7,11 +7,11 @@
   justify-content: center;
   align-items: center;
 }
-.scan img {
+.Verfiy_product .scan img {
   width:16rem;
   height: 16rem;
   border-radius: 1.5rem;
-  box-shadow: 0 4px 32px 0 #6ed6ff55, 0 1.5px 8px 0 #26368433;
+  box-shadow: none;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .scan img:hover {

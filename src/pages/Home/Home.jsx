@@ -7,7 +7,7 @@ export default function Home() {
       <Navbar />
       <Background />
       <Header />
-      <About_us />
+      {/* <About_us /> */}
       {/* <Products_home /> */}
 
       <OurTeam />

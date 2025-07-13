@@ -13,7 +13,7 @@ const CircularProgress = ({
   size = 32,
   color = "#007bff",
   thickness = 4,
-  value, // 0-100, if undefined: indeterminate spinner
+  value, // 0-100
   showValue = false,
   className = "",
   ...props
@@ -26,6 +26,26 @@ const CircularProgress = ({
   const offset = progress !== undefined
     ? circumference - (progress / 100) * circumference
     : circumference * 0.25;
+
+  // Animation: fill to value, then empty, repeat
+  const animationName = progress !== undefined ? `circular-fill-${progress}` : undefined;
+  const animationDuration = 2.5; // seconds
+
+  // Inject keyframes for this value
+  const styleId = `circular-progress-style-${progress}`;
+  if (progress !== undefined && !document.getElementById(styleId)) {
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.innerHTML = `
+      @keyframes ${animationName} {
+        0% { stroke-dashoffset: ${circumference}; }
+        45% { stroke-dashoffset: ${offset}; }
+        55% { stroke-dashoffset: ${offset}; }
+        100% { stroke-dashoffset: ${circumference}; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 
   return (
     <div
@@ -55,16 +75,16 @@ const CircularProgress = ({
           stroke={color}
           strokeWidth={thickness}
           strokeDasharray={circumference}
-          strokeDashoffset={offset}
+          strokeDashoffset={circumference}
           strokeLinecap="round"
           style={
-            progress === undefined
+            progress !== undefined
               ? {
-                transformOrigin: "center",
-                animation: "circular-rotate 1s linear infinite",
+                animation: `${animationName} ${animationDuration}s cubic-bezier(0.4,0,0.2,1) infinite`,
               }
               : {
-                transition: "stroke-dashoffset 0.5s ease",
+                transformOrigin: "center",
+                animation: "circular-rotate 1s linear infinite",
               }
           }
         />

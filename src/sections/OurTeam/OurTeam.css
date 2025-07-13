@@ -1,12 +1,57 @@
 .our-team-section {
-    /* background: linear-gradient(135deg, #1f2d65 0%, #6e64c5 50%, #ff6b6b 100%); */
-    position: relative;
-    overflow: hidden;
-    /* clip-path: polygon(0 11%, 100% 0, 100% 100%, 0% 100%); */
-    /* padding-top: 90px !important; */
-    /* padding-bottom: 50px; */
+  position: relative;
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%);
+  
+  padding: 40px 0;
 }
 
+.our-team-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: left;
+  z-index: 2;
+  position: relative;
+  text-shadow: 0 2px 8px #000a;
+  background: rgb(38 48 86 / 51%);
+  border-radius: 12px;
+  padding: 32px 32px 24px 32px;
+}
+
+.our-team-title {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  -webkit-text-fill-color: white !important;
+}
+
+@media (max-width: 600px) {
+  .our-team-content {
+    padding: 18px 8px 12px 8px;
+    max-width: 98vw;
+  }
+  .our-team-title {
+    font-size: 1.5rem;
+  }
+  .our-team-section {
+    min-height: 220px;
+    padding: 16px 0;
+  }
+}
+
+.our-team-section .team-background{
+  background-image: url('../../assets/AboutUsImage/a-highly-detailed-digital-artwork-showing-the-human-body-in-motion-as-if-exercising-with-visible-mu67.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .our-team-section::before {
   content: '';
   position: absolute;
@@ -21,7 +66,7 @@
 .team-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
+  /* padding: 0 20px; */
   position: relative;
   z-index: 2;
 }
@@ -33,15 +78,18 @@
 }
 
 .team-title {
-    font-family: 'NunitoBlack';
+  font-family: 'NunitoBlack';
+  padding-top: 40px;
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 30px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: whitesmoke;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   position: relative;
+  animation: tracking-pulse 4s cubic-bezier(0.215, 0.610, 0.355, 1.000) infinite;
+  will-change: opacity, letter-spacing;
 }
 
 .team-title::after {
@@ -56,10 +104,6 @@
   border-radius: 2px;
 }
 
-.title-accent {
-  color: #ff6b6b;
-  -webkit-text-fill-color: #ff6b6b;
-}
 
 /* Content Section */
 .team-content {
@@ -124,17 +168,19 @@
   flex-direction: column;
   gap: 25px;
 }
-
+.team-overlay{
+  
+}
 .team-description {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  color: #495057;
-  font-weight: 400;
-  background: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem !important;
+  text-align: center;
+  line-height: 1.5;
+  color: var(--color-white);
+  /* font-weight: 400; */
+  /* background: linear-gradient(to top right,var(--color-blue),transparent); */
   padding: 25px;
   border-radius: 15px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* backdrop-filter: blur(10px); */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   position: relative;
@@ -172,7 +218,7 @@
 .stat-item {
   text-align: center;
   padding: 40px 20px;
-  background: rgba(255, 255, 255, 0.8);
+  background: linear-gradient(to top right,var(--color-blue2),var(--color-blue));
   border-radius: 15px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -204,7 +250,7 @@
 .stat-number {
   font-size: 3rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-white);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -214,7 +260,7 @@
 
 .stat-label {
   font-size: 1rem;
-  color: #718096;
+  color: var(--color-white);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -356,4 +402,72 @@
 .stat-item:focus {
   outline: 2px solid #667eea;
   outline-offset: 2px;
+} 
+
+@-webkit-keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes tracking-out-contract {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+}
+@keyframes tracking-out-contract {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+} 
+
+@keyframes tracking-pulse {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  15% {
+    letter-spacing: 0.05em;
+    opacity: 1;
+  }
+  80% {
+    letter-spacing: 0.05em;
+    opacity: 1;
+  }
+  100% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
 } 

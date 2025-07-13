@@ -47,7 +47,7 @@ export default function Header() {
               <div className="slide-background" style={{ backgroundImage: `url(${slide.image})` }}>
                 <div className="slide-overlay">
                   <div className="content_header">
-                    <p>{slide.text}</p>
+                    <p className='hidden'>{slide.text}</p>
                   </div>
                 </div>
               </div>

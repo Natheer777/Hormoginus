@@ -23,12 +23,12 @@
 }
 
 /* Product name with gradient */
-.product_name {
+.swiper_product .product_name {
   font-size: 2.5rem;
   font-family: 'LittleBubble', sans-serif;
   background: linear-gradient(90deg, #6ed6ff, #263684 80%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: none;
   background-clip: text;
   text-shadow: 0 0 8px #fff, 0 0 2px #263684;
   margin-bottom: 0.5rem;
@@ -459,4 +459,47 @@
 .circular-progress-wrapper:hover {
   transform: scale(1.05);
 }
+
+.circular-progress-attribute {
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+}
+
+.circular-progress-value {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.circular-progress-label {
+  font-size: 10px;
+  color: #888;
+  text-align: center;
+  margin-top: 0px;
+  line-height: 1;
+}
+
+.circular-progress-icon {
+  display: block;
+  margin: 2px auto 0 auto;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Optional: color overrides for each type */
+.strength-value, .strength-icon { color: #007bff; }
+.side-effects-value, .side-effects-icon { color: #dc3545; }
+.muscle-gain-value, .muscle-gain-icon { color: #28a745; }
+.keep-gains-value, .keep-gains-icon { color: #ffc107; }
+.fat-water-value, .fat-water-icon { color: #17a2b8; }
 

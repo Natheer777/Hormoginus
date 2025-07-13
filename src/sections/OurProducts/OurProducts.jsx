@@ -12,42 +12,38 @@ export default function OurProducts() {
         {
             id: 1,
             name: "Injectable Solutions",
-            category: "Advanced Formulations",
             image: productImage1,
             description: "High-quality injectable steroid products developed with cutting-edge technology for optimal therapeutic outcomes."
         },
         {
             id: 2,
             name: "Oral Formulations",
-            category: "Premium Quality",
             image: productImage2,
             description: "Carefully formulated oral steroid solutions designed for maximum effectiveness and safety."
         },
         {
             id: 3,
             name: "Performance Support",
-            category: "Athletic Excellence",
             image: productImage3,
             description: "Specialized products engineered to support physical performance and recovery needs."
         },
         {
             id: 4,
             name: "Therapeutic Solutions",
-            category: "Medical Grade",
             image: productImage4,
             description: "Pharmaceutical-grade steroid products meeting the highest standards for medical applications."
         }
     ]
 
     return (
-        <section className="our-products-section">
+        <section className="our-products-section ">
             <div className="products-container">
                 {/* Header Section */}
                 <div className="products-header">
                     <h2 className="products-title">
-                        <span className="title-accent">OUR</span> PRODUCTS
+OUR PRODUCTS
                     </h2>
-                    <p className="products-description">
+                    <p className="products-description top">
                         HORMOGENUS offers high-quality steroid products in injectable and oral forms, developed with advanced technology and strict quality standards. Our solutions are designed for therapeutic use and performance support, ensuring safety, effectiveness, and trust for our clients worldwide.
                     </p>
                 </div>
@@ -57,14 +53,12 @@ export default function OurProducts() {
                     {products.map((product, index) => (
                         <div
                             key={product.id}
-                            className={`product-card ${activeProduct === index ? 'active' : ''}`}
+                            className={`product-card ${activeProduct === index ? 'active' : ''} top`}
                             onMouseEnter={() => setActiveProduct(index)}
                         >
                             <div className="product-image-container">
                                 <img src={product.image} alt={product.name} className="product-image" />
-                                <div className="product-overlay">
-                                    <div className="category-badge">{product.category}</div>
-                                </div>
+                             
                             </div>
 
                             <div className="product-content">
@@ -72,12 +66,7 @@ export default function OurProducts() {
                                 <p className="product-description">{product.description}</p>
 
                                 <div className="product-actions">
-                                    <button className="learn-more-btn">
-                                        Learn More
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M5 12h14M12 5l7 7-7 7" />
-                                        </svg>
-                                    </button>
+                              
                                 </div>
                             </div>
                         </div>
@@ -86,22 +75,22 @@ export default function OurProducts() {
 
                 {/* Features Section */}
                 <div className="product-features">
-                    <div className="feature-item">
+                    <div className="feature-item left">
                         <div className="feature-icon">🔬</div>
                         <h4>Advanced Technology</h4>
                         <p>Cutting-edge pharmaceutical technology</p>
                     </div>
-                    <div className="feature-item">
+                    <div className="feature-item right">
                         <div className="feature-icon">🛡️</div>
                         <h4>Quality Standards</h4>
                         <p>Strict quality control and safety measures</p>
                     </div>
-                    <div className="feature-item">
+                    <div className="feature-item left">
                         <div className="feature-icon">🌍</div>
                         <h4>Global Trust</h4>
                         <p>Trusted by clients worldwide</p>
                     </div>
-                    <div className="feature-item">
+                    <div className="feature-item right">
                         <div className="feature-icon">⚡</div>
                         <h4>Performance Support</h4>
                         <p>Designed for optimal results</p>
