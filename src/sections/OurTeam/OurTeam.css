@@ -8,9 +8,10 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%);
+  /* -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%); */
+  /* mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%); */
   padding: 40px 0;
+  padding-bottom: 0 !important;
 }
 
 .our-team-content {
@@ -18,7 +19,7 @@
   width: 90%;
   margin: 0 auto;
   text-align: left;
-  z-index: 2;
+  /* z-index: 2; */
   position: relative;
   text-shadow: 0 2px 8px #000a;
   background: rgba(11, 24, 63, 0.749);
@@ -39,7 +40,7 @@
     max-width: 98vw;
   }
   .our-team-title {
-    font-size: 1.5rem;
+    font-size: 2.4rem;
   }
   .our-team-section {
     min-height: 220px;
@@ -69,7 +70,7 @@
   margin: 0 auto;
   /* padding: 0 20px; */
   position: relative;
-  z-index: 2;
+  /* z-index: 2; */
 }
 
 /* Header Styles */

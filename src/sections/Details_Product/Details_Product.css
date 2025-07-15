@@ -163,7 +163,7 @@
   object-fit: cover;
   height: 55vh;
 }
-.swiper-button-prev,
+.swiper_product .swiper-button-prev,
 .swiper-button-next {
   color: var(--color-blue) !important;
 }

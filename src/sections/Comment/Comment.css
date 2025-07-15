@@ -7,12 +7,11 @@
   -webkit-text-fill-color: transparent;
   font-family: 'NunitoBlack';
   position: relative;
-  animation: tracking-pulse 5s cubic-bezier(0.215, 0.610, 0.355, 1.000) infinite;
-  will-change: opacity, letter-spacing;
+  
 }
 .comment-section {
   padding: 80px 0 80px 0;
-  background-image: url('../../assets/imageForOtherSection/assets_task_01jzpctybnfedbnfc43k93degj_1752024662_img_1.png');
+  background-image:linear-gradient(rgb(0 0 64 / 26%), rgb(0 0 64 / 23%)), url('../../assets/imageForOtherSection/assets_task_01jzpctybnfedbnfc43k93degj_1752024662_img_1.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -106,4 +105,8 @@ background-color: var(--color-blue2) !important;
   color: rgb(236, 236, 10);
   width: 25px;
   margin: 4px;
+}
+
+.comment-section .swiper-button-prev ,.comment-section .swiper-button-next::after{
+  color: transparent !important;
 }

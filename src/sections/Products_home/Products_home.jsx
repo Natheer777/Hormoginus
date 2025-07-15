@@ -6,6 +6,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import ScrollFloat from '../../components/ScrollFloat/ScrollFloat';
 
 // دالة لتكبير أول حرف من النص
 function capitalizeFirstLetter(str) {
@@ -103,19 +104,16 @@ export default function Products_home() {
     return (
       <div key={product.p_id || index} className="product-card back top">
         <div className="product-image">
-          {product.vid_url ? (
-            <video
-              src={product.vid_url}
-              autoPlay
-              loop
-              muted
-              playsInline
+          {product.img_url ? (
+            <img
+            loading="lazy"
+              src={product.img_url}
+              alt={product.pname || 'product'}
               style={{
-                maxWidth: "30rem",
-                maxHeight: "500px",
                 borderRadius: "10px",
                 boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
               }}
+              onError={e => { e.target.style.display = 'none'; }}
             />
           ) : (
             <div className="no-image">No Image</div>
@@ -139,8 +137,8 @@ export default function Products_home() {
             <p className="sec_name">
               {product.science_name
                 ? capitalizeFirstLetter(
-                    product.science_name.replace(/[()]/g, "")
-                  )
+                  product.science_name.replace(/[()]/g, "")
+                )
                 : ""}
             </p>
           </div>
@@ -161,7 +159,7 @@ export default function Products_home() {
   };
 
   return (
-    <div className="Products_home container">
+    <div className="Products_home">
       {error && (
         <div className="error">
           <p>{error}</p>
@@ -171,65 +169,95 @@ export default function Products_home() {
 
       {!loading && !error && (
         <>
-          {/* TABLETS */}
-          <h2 style={{ textAlign: "center", marginTop: "2rem" }}>TABLETS</h2>
-          {tablets.length > 0 ? (
-            <Swiper
-              modules={[Navigation, Pagination]}
-              navigation
-              pagination={{ clickable: true }}
-              spaceBetween={20}
-              breakpoints={{
-                320: { slidesPerView: 1 },
-                640: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
-              }}
-              className="products-swiper"
-            >
-              {tablets.map((product, index) => (
-                <SwiperSlide key={index}>
-                  {renderProductCard(product, index)}
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          ) : (
-            <div className="no-products">
-              <p>No TABLETS products found.</p>
-            </div>
-          )}
 
-          {/* INJECTIONS */}
-          <h2
-            style={{ textAlign: "center", marginTop: "3rem"}}
-          >
-            INJECTIONS
-          </h2>
-          {injections.length > 0 ? (
-            <Swiper
-              modules={[Navigation, Pagination]}
-              navigation
-              pagination={{ clickable: true }}
-              spaceBetween={20}
-              breakpoints={{
-                320: { slidesPerView: 1 },
-                640: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
-              }}
-              className="products-swiper"
+
+
+          <div className="INJECTIONS">
+
+            <ScrollFloat
+              style={{ textAlign: "center", marginTop: "3rem" }}
             >
-              {injections.map((product, index) => (
-                <SwiperSlide key={index}>
-                  {renderProductCard(product, index)}
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          ) : (
-            <div className="no-products">
-              <p>No INJECTIONS products found.</p>
-            </div>
-          )}
+              INJECTIONS
+            </ScrollFloat>
+            {injections.length > 0 ? (
+              <Swiper
+                modules={[Navigation, Pagination]}
+                navigation
+                spaceBetween={20}
+                breakpoints={{
+                  320: { slidesPerView: 1 },
+                  640: { slidesPerView: 2 },
+                  1024: { slidesPerView: 3 },
+                }}
+                className="products-swiper"
+              >
+                {injections.map((product, index) => (
+                  <SwiperSlide key={index}>
+                    {renderProductCard(product, index)}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <div className="no-products">
+                <p>No INJECTIONS products found.</p>
+              </div>
+            )}
+            {/* <button className="seeAll">SEE ALL</button> */}
+          </div>
+
+
+          <div className="TABLETS">
+
+            <ScrollFloat style={{ textAlign: "center", marginTop: "2rem" }}>TABLETS</ScrollFloat>
+            {tablets.length > 0 ? (
+              <Swiper
+                modules={[Navigation, Pagination]}
+                navigation
+                spaceBetween={20}
+                breakpoints={{
+                  320: { slidesPerView: 1 },
+                  640: { slidesPerView: 2 },
+                  1024: { slidesPerView: 3 },
+                }}
+                className="products-swiper"
+              >
+                {tablets.map((product, index) => (
+                  <SwiperSlide key={index}>
+                    {renderProductCard(product, index)}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <div className="no-products">
+                <p>No TABLETS products found.</p>
+              </div>
+            )}
+            {/* <button className="seeAll">SEE ALL</button> */}
+          </div>
         </>
       )}
+        <div className="product-features">
+                    <div className="feature-item top">
+                        <div className="feature-icon">🔬</div>
+                        <h4>Advanced Technology</h4>
+                        <p>Cutting-edge pharmaceutical technology</p>
+                    </div>
+                    <div className="feature-item top">
+                        <div className="feature-icon">🛡️</div>
+                        <h4>Quality Standards</h4>
+                        <p>Strict quality control and safety measures</p>
+                    </div>
+                    <div className="feature-item top">
+                        <div className="feature-icon">🌍</div>
+                        <h4>Global Trust</h4>
+                        <p>Trusted by clients worldwide</p>
+                    </div>
+                    <div className="feature-item top">
+                        <div className="feature-icon">⚡</div>
+                        <h4>Performance Support</h4>
+                        <p>Designed for optimal results</p>
+                    </div>
+                </div>
     </div>
   );
 }

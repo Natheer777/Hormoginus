@@ -27,7 +27,7 @@ export default function Comment() {
           <div className="comment-card">
             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" className="user-img" />
             <p className="user-comment">
-              “Thunder supplements completely transformed my energy levels! Incredible taste and noticeable results.”
+              HOROGENUS supplements completely transformed my energy levels! Incredible taste and noticeable results.”
               <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
 
             </p>
@@ -49,7 +49,7 @@ export default function Comment() {
           <div className="comment-card">
             <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="User" className="user-img" />
             <p className="user-comment">
-              “From packaging to performance, Thunder delivers excellence. My new go-to supplement brand!”
+              “From packaging to performance, HOROGENUS delivers excellence. My new go-to supplement brand!”
               <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </p>
           </div>

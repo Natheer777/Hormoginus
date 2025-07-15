@@ -53,7 +53,7 @@
     background: rgba(22, 34, 70, 0.8);
     color: #fff;
     border-radius: 32px;
-    border: 2px solid #b71c3b;
+    border: 1px solid #b71c3b;
     box-shadow: 0 4px 24px rgba(0,0,0,0.15);
     font-size: 1.2rem;
     font-family: 'Nunito', Arial, sans-serif;
@@ -93,19 +93,10 @@
 /* Swiper Navigation Styles */
 .swiper-button-next,
 .swiper-button-prev {
-    display: none;
+    color: rgba(22, 34, 70, 0.8) !important;
 }
 
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-    background: rgba(0, 0, 0, 0.8);
-    transform: scale(1.1);
-}
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
-    font-size: 20px !important;
-}
 
 .Headerr .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
     top: 10px;
@@ -169,8 +160,8 @@
         height: 40px !important;
     }
     
-    .swiper-button-next::after,
-    .swiper-button-prev::after {
-        font-size: 16px !important;
+   .Headerr .swiper-button-next::after,
+   .Headerr .swiper-button-prev::after {
+        font-size: 0px !important;
     }
 }

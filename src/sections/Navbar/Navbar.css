@@ -5,15 +5,16 @@
 }
 .container-fluid {
   display: flex;
-  justify-content: space-evenly !important;
+  justify-content: space-between !important;
   padding-left: 0;
 }
 .navbar-brand img {
-  width: 7rem;
+  margin-left: 15px;
+  width: 6rem;
 }
 
 .navbar-toggler-icon {
-  width: 50px;
+  width: 40px;
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22' /%3E%3C/svg%3E");
 }
 .navbar-toggler:focus {
