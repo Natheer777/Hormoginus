@@ -42,13 +42,22 @@
 }
 
 .content_header{
-    position: relative;
+    position: absolute;
     text-align: center;
-    width: 100%;
+    width:90%;
     max-width: 1200px;
-    padding: 0 40px;
-    z-index: 2;
-    
+    padding: 32px 24px;
+    z-index: 1000;
+    /* top: 200px; */
+    overflow: hidden;
+    background: rgba(22, 34, 70, 0.8);
+    color: #fff;
+    border-radius: 32px;
+    border: 2px solid #b71c3b;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    font-size: 1.2rem;
+    font-family: 'Nunito', Arial, sans-serif;
+    margin: 24px auto;
 }
 
 .content_header img{
@@ -68,20 +77,17 @@
 }
 
 .content_header p{
-    background-color: #0b214c66;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%);
-    
-    font-family: 'NunitoSemiBold';
     margin: 0 auto;
-    width: 80%;
-    max-width: 800px;
+    width: 90%;
+    max-width: 900px;
     line-height: 1.8;
     font-size: 1.1rem;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
-    backdrop-filter: blur(5px);
+    padding: 0;
+    border: none;
+    background: none;
+    border-radius: 0;
+    backdrop-filter: none;
 }
 
 /* Swiper Navigation Styles */
@@ -99,6 +105,10 @@
 .swiper-button-next::after,
 .swiper-button-prev::after {
     font-size: 20px !important;
+}
+
+.Headerr .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
+    top: 10px;
 }
 
 /* Swiper Pagination Styles */

@@ -24,6 +24,8 @@ export default function ContactUs() {
                         <p className="contact-desc-alt">
                             Have a question or feedback? Reach out and our team will get back to you soon!
                         </p>
+                        <p className='contact-desc-alt mt-4 fs-5'>128 City Road, London, United Kingdom, EC1V</p>
+                        
                     </div>
                     <div className="col-xl-6 col-lg-6 contact-form-card">
                         <div className="contact-card-alt">

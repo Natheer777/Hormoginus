@@ -8,7 +8,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 export default function Comment() {
   return (
-    <div className="comment-section mt-5">
+    <div className="comment-section">
       <h2 className="comment-title">REVIEWS</h2>
 
       <Swiper

@@ -34,7 +34,7 @@
   margin-bottom: 0.5rem;
 }
 
-/* Price and vial highlights */
+/* Price and vial highlights
 .price, .vial {
   background: linear-gradient(90deg, #263684 60%, #6ed6ff 100%);
   color: #fff;
@@ -43,7 +43,7 @@
   font-size: 1.1rem;
   margin: 0.5rem 0;
   box-shadow: 0 2px 8px #26368444;
-}
+} */
 
 /* Show More button animation */
 .btn-link {

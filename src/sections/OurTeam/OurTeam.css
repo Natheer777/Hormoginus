@@ -1,34 +1,35 @@
 .our-team-section {
-  position: relative;
-  min-height: 350px;
   display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  min-height: 500px;
   align-items: center;
-  justify-content: center;
   color: #fff;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%);
-  
   padding: 40px 0;
 }
 
 .our-team-content {
-  max-width: 700px;
+  text-align: center !important;
+  width: 90%;
   margin: 0 auto;
   text-align: left;
   z-index: 2;
   position: relative;
   text-shadow: 0 2px 8px #000a;
-  background: rgb(38 48 86 / 51%);
-  border-radius: 12px;
+  background: rgba(11, 24, 63, 0.749);
+  border-radius: 50px;
   padding: 32px 32px 24px 32px;
+  border: 1px solid #b71c3b;
 }
 
 .our-team-title {
   margin-bottom: 1.5rem;
-  text-align: center;
+  text-align: center !important;
   -webkit-text-fill-color: white !important;
 }
 
@@ -47,12 +48,12 @@
 }
 
 .our-team-section .team-background{
-  background-image: url('../../assets/AboutUsImage/a-highly-detailed-digital-artwork-showing-the-human-body-in-motion-as-if-exercising-with-visible-mu67.jpg');
+  background-image: url('../../assets/imageForOtherSection/assets_task_01jzpcjsmbefbbdrcy952qk8ej_1752024399_img_1.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-.our-team-section::before {
+/* .our-team-section::before {
   content: '';
   position: absolute;
   top: 0;
@@ -61,7 +62,7 @@
   bottom: 0;
   background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0,0,0,0.03)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
   opacity: 0.5;
-}
+} */
 
 .team-container {
   max-width: 1400px;
@@ -404,7 +405,7 @@
   outline-offset: 2px;
 } 
 
-@-webkit-keyframes tracking-in-expand {
+/* @-webkit-keyframes tracking-in-expand {
   0% {
     letter-spacing: -0.5em;
     opacity: 0;
@@ -470,4 +471,4 @@
     letter-spacing: -0.5em;
     opacity: 0;
   }
-} 
+}  */

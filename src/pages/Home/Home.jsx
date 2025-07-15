@@ -8,10 +8,9 @@ export default function Home() {
       <Background />
       <Header />
       {/* <About_us /> */}
-      {/* <Products_home /> */}
-
       <OurTeam />
-      <OurProducts />
+      {/* <OurProducts /> */}
+      <Products_home />
       <Comment />
       <ContactUs />
       <Verfiy_product />

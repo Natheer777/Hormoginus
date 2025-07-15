@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <>
-      <div className='Headerr'>
+      <div className='Headerr mb-5'>
         <Swiper
           spaceBetween={0}
           centeredSlides={true}

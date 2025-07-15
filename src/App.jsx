@@ -5,6 +5,8 @@ import "bootstrap/dist/js/bootstrap.bundle";
 import { useEffect } from 'react';
 import { Home, Products } from './pages';
 import Contact from './pages/Contact/Contact';
+import VerifyProduct from './pages/VerifyProduct';
+import ProductById from './pages/ProductById';
 function App() {
   useEffect(() => {
     setInterval(() => {
@@ -32,7 +34,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Contact" element={<Contact />} />
+          {/* راوت للآي دي الرقمي فقط */}
+          <Route path="/:id(\\d+)" element={<ProductById />} />
+          {/* راوت لاسم المنتج */}
           <Route path="/:productName" element={<Products />} />
+          {/* إذا كنت تحتاج VerifyProduct لشيء خاص */}
+          {/* <Route path="/verify/:id" element={<VerifyProduct />} /> */}
         </Routes>
       </Router>
     </>

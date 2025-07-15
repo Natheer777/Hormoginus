@@ -33,7 +33,7 @@
   border-radius: 2px;
 }
 
-@keyframes tracking-pulse {
+/* @keyframes tracking-pulse {
   0% {
     letter-spacing: -0.5em;
     opacity: 0;
@@ -50,7 +50,7 @@
     letter-spacing: -0.5em;
     opacity: 0;
   }
-}
+} */
 .comment-section .swiper-pagination-bullet-active{
 background-color: var(--color-blue2) !important;
 }

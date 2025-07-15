@@ -6,12 +6,6 @@
 
 }
 
-@keyframes colorFade {
-  0%   { color: var(--color-blue); }
-  50%  { color: #caebf5; }
-  100% { color: var(--color-blue); }
-}
-
 .Products_home h1 {
   animation: colorFade 3s infinite ease-in-out;
 }
@@ -30,7 +24,43 @@
   padding: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
+.Products_home h2{
+  color: white;
+  font-size: 3.2rem;
+  font-family: 'NunitoBlack';
+}
+.Products_home .product-card{
+  border: 1px solid rgb(122, 17, 17);
+  background-color: transparent;
+}
+.Products_home .product_name{
+  text-align: start;
+  font-family: 'LittleBubble';
+  color: #25356e !important;
+  text-shadow: 0 0 2px white, 0 0 2px white, 0 0 3px white !important;
+}
+.Products_home .caliber{
+  position: absolute;
+  color: white;
+    font-family: "NunitoBlack";
+  color: white;
+  font-size:  calc(1.375rem + 1.5vw);
+}
+.Products_home .detailsMainProduct{
+  height: 9rem;
+  border-bottom: none !important;
+  background-color: #202f735f;
+}
+.Products_home .vial {
+  display: ruby-text;
+  background-color: #701218;
+}
+.Products_home .number-value{
+  color: #25356e !important;
+}
+.Products_home .text-content{
+  font-family: 'NunitoBlack';
+}
 .sections-nav li {
   background: linear-gradient(70deg, var(--color-blue), var(--color-blue2));
   color: white;
@@ -90,6 +120,9 @@
   transition: all 0.3s ease;
   border: 1px solid #e9ecef;
   height: max-content;
+}
+.Products_home .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
+  /* top: auto !important; */
 }
 
 .product-card:hover {

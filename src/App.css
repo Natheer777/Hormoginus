@@ -1,7 +1,7 @@
 :root {
   --color-white: #ffffff;
   --color-blue: #99222a;
-  --color-blue2:#263684;
+  --color-blue2:#142266;
 }
 
 body{
@@ -34,7 +34,7 @@ body{
   font-style: normal;
   font-weight: 600;
 }
-
+/* 
 .left {
   opacity: 0;
   filter: blur(4px);
@@ -62,4 +62,4 @@ body{
   opacity: 1;
   filter: blur(0);
   transform: translateX(0);
-} 
+}  */

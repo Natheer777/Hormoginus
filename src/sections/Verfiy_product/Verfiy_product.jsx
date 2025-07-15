@@ -28,10 +28,10 @@ export default function Verfiy_product() {
             <div className="verfiyLogo container col-xl-4 col-lg-4 right">
                 <img src={Logo} alt="" />
                 <div className="social">
-                  {/* <a href="https://www.instagram.com/90nutrition_uk?igsh=MTU3ZzJ0MThvNG00bQ==" target="_blank"> */}
+                  <a href="https://www.instagram.com/hormogenius?igsh=MWtmaWFycmdnemc0MA%3D%3D&utm_source=qr" target="_blank">
 
                     <FiInstagram />
-                  {/* </a> */}
+                  </a>
                   {/* <a href="https://www.facebook.com/share/1Ae4XXohz2/" target="_blank"> */}
                     <FiFacebook />
                   {/* </a> */}

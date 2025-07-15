@@ -147,22 +147,33 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default function Details_product() {
+export default function Details_product({ productData: productDataProp, overrideLoading, productId }) {
   const { productName } = useParams();
-  const [productData, setProductData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [productData, setProductData] = useState(productDataProp || null);
+  const [loading, setLoading] = useState(productDataProp ? false : true);
   const [error, setError] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
+    if (productDataProp) return;
     const fetchProduct = async () => {
       try {
-        const res = await axios.post(
-          "https://hormogenius.com/api/get_product_by_name.php",
-          {
-            name: productName,
-          }
-        );
+        let res;
+        if (productId) {
+          res = await axios.post(
+            "https://hormogenius.com/api/get_product_by_id.php",
+            {
+              id: productId,
+            }
+          );
+        } else {
+          res = await axios.post(
+            "https://hormogenius.com/api/get_product_by_name.php",
+            {
+              name: productName,
+            }
+          );
+        }
         if (res.data.status === "success") {
           setProductData(res.data.data[0]);
         } else {
@@ -174,11 +185,10 @@ export default function Details_product() {
         setLoading(false);
       }
     };
-
     fetchProduct();
-  }, [productName]);
+  }, [productName, productId, productDataProp]);
 
-  if (loading) return <p></p>;
+  if (overrideLoading === false ? false : loading) return <p></p>;
   if (error) return <p>{error}</p>;
   if (!productData) return <p></p>;
 
@@ -307,7 +317,6 @@ export default function Details_product() {
                             }
                           })
                           : shortDescription.map((line, idx) => {
-                            // تحسين regex للتعرف على الكلمات قبل النقطتين
                             const match = line.match(/^([^:]+):\s*(.*)$/);
                             if (match) {
                               return (
