@@ -6,7 +6,6 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import ScrollFloat from '../../components/ScrollFloat/ScrollFloat';
 
 function capitalizeFirstLetter(str) {
   if (!str) return "";
@@ -16,7 +15,7 @@ function capitalizeFirstLetter(str) {
 const productColors = {
   DECA250mg: "#3bb9eb",
   NPP100mg: "#3bb9eb",
-  "\tprimo100mg": "#3bb9eb",
+  "primo100mg": "#3bb9eb",
   Sustalon250mg: "#3bb9eb",
 
   "Carntin+Yohimbine": "#008081",
@@ -114,13 +113,18 @@ export default function Products_home() {
           <div>
             <h1
               className={
-                `product_name text-xl font-bold left${(product.pname && product.pname.trim().toUpperCase() === 'L CARNITINE+YOHIMBINE+CLEN')
+                `product_name text-xl font-bold left${(product.pname && (product.pname.trim().toUpperCase().replace(/^L\s+/, '') === 'CARNITINE+YOHIMBINE+CLEN'))
                   ? ' small-font' : ''
                 }`
               }
+              style={{ color: productColors[product.pname] || undefined }}
             >
               {(() => {
-                const name = (product.pname || "").replace(/-/g, " ");
+                let name = (product.pname || '').replace(/-/g, ' ');
+                // Always remove leading 'L ' if the rest matches target
+                if (name.trim().toUpperCase().replace(/^L\s+/, '') === 'CARNITINE+YOHIMBINE+CLEN') {
+                  name = name.replace(/^L\s+/i, '');
+                }
                 const match = name.match(/^[^\d]*/);
                 return match
                   ? match[0].trim().toUpperCase()
@@ -142,8 +146,11 @@ export default function Products_home() {
                 ? product.vial.replace(/tablets?/gi, "").trim()
                 : ""}
             </span>
-            <p className="caliber right">
-              {formatTextWithNumbers(product.caliber, productColors[product.pname] || undefined)}
+            <p className="caliber right" style={{ color: productColors[product.pname] || undefined }}>
+              {formatTextWithNumbers(
+                product.caliber,
+                sectionType === 'TABLETS' ? (productColors[product.pname] || undefined) : (productColors[product.pname] || undefined)
+              )}
             </p>
           </div>
         </div>

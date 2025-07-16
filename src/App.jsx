@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Home, Products } from './pages';
 import Contact from './pages/Contact/Contact';
 import VerifyProduct from './pages/VerifyProduct';
+import DynamicRouteHandler from './components/DynamicRouteHandler';
 function App() {
   useEffect(() => {
     setInterval(() => {
@@ -33,8 +34,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Contact" element={<Contact />} />
-          {/* <Route path="/:id" element={<VerifyProduct />} /> */}
-          <Route path="/:productName" element={<Products />} />
+          <Route path="/:param" element={<DynamicRouteHandler />} />
         </Routes>
       </Router>
     </>

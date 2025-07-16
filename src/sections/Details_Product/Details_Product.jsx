@@ -147,8 +147,10 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default function Details_product({ productData: productDataProp, overrideLoading, productId }) {
-  const { productName } = useParams();
+export default function Details_product({ productData: productDataProp, overrideLoading, productId, productName }) {
+  const params = useParams();
+  // تتبع القيم المستلمة
+  console.log("Details_Product.jsx - productName prop:", productName, "useParams:", params);
   const [productData, setProductData] = useState(productDataProp || null);
   const [loading, setLoading] = useState(productDataProp ? false : true);
   const [error, setError] = useState(null);
@@ -187,6 +189,11 @@ export default function Details_product({ productData: productDataProp, override
     };
     fetchProduct();
   }, [productName, productId, productDataProp]);
+
+  // تتبع بيانات المنتج بعد الجلب
+  useEffect(() => {
+    console.log("Details_Product.jsx - productData:", productData);
+  }, [productData]);
 
   if (overrideLoading === false ? false : loading) return <p></p>;
   if (error) return <p>{error}</p>;

@@ -6,7 +6,9 @@ import {
 } from "../../sections";
 import { Background } from "../../../components/index";
 import Logo from "../../assets/Asset 11@8x.png";
+import { useParams } from "react-router-dom";
 export default function Products() {
+  const { param } = useParams();
   return (
     <>
       {/* <div>
@@ -19,7 +21,7 @@ export default function Products() {
         </nav>
       </div> */}
       <Navbar />
-      <Details_Product />
+      <Details_Product productName={param} />
       <Background />
       <Verfiy_product />
       <Footer />

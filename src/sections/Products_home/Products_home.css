@@ -76,7 +76,7 @@
 .Products_home .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after{
   font-size: 70px;
     margin-right: 16px;
-    color: #99222a;
+    /* color: #99222a; */
 }
 .Products_home h2{
   color: white;
@@ -101,7 +101,7 @@
 .Products_home .product_name{
   text-align: start;
   font-family: 'LittleBubble';
-  color: #25356e !important;
+  /* color: #25356e !important; */
   text-shadow: 0 0 2px white, 0 0 2px white, 0 0 3px white !important;
   word-break: break-word;
   white-space: normal;
@@ -132,9 +132,7 @@
   display: ruby-text;
   background-color: #701218;
 }
-.Products_home .number-value{
-  color: #25356e !important;
-}
+
 .Products_home .text-content{
   color: white;
   font-family: 'NunitoBlack';
