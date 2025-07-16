@@ -13,17 +13,18 @@ export default function Header() {
   const slides = [
     {
       image: slide1,
-      text: "HORMOGENUS upholds rigorous quality standards to ensure the purity, safety, and effectiveness of its steroid products for various medical and performance needs"
+      text: "HORMOGENUS ensures strict quality standards to deliver pure, safe, and effective steroid products designed for medical therapies and athletic performance support."
     },
     {
       image: slide2,
-      text: "HORMOGENUS invests extensively in research to develop advanced steroid formulations that support therapeutic treatments and enhance physical performance safely"
+      text: "HORMOGENUS advances research to create refined steroid formulas that support treatment goals and improve physical performance with innovation, care, and safety."
     },
     {
       image: slide3,
-      text: "HORMOGENUS is a UK-based pharmaceutical company providing innovative solutions and high-quality products across various therapeutic areas."
+      text: "HORMOGENUS is a UK pharmaceutical company offering innovative solutions and premium-quality products tailored for a wide range of therapeutic and medical applications."
     }
-  ]
+  ];
+  
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -37,7 +38,7 @@ export default function Header() {
           transform: 'translateX(-50%)',
           zIndex: 20
         }}>
-          <CircularText text="HORMOGENUS" spinDuration={20} onHover="speedUp" />
+          <CircularText text="-HORMOGENUS-ORIGINAL" spinDuration={20} onHover="speedUp" />
         </div>
         <Swiper
           spaceBetween={0}

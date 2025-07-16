@@ -5,7 +5,7 @@ import "./CircularText.css";
 const getRotationTransition = (duration, from, loop = true) => ({
     from,
     to: from + 360,
-    ease: "linear",
+    ease: "easeInOut",
     duration,
     type: "tween",
     repeat: loop ? Infinity : 0,
@@ -15,8 +15,8 @@ const getTransition = (duration, from) => ({
     rotate: getRotationTransition(duration, from),
     scale: {
         type: "spring",
-        damping: 20,
-        stiffness: 300,
+        damping: 10,
+        stiffness: 100,
     },
 });
 

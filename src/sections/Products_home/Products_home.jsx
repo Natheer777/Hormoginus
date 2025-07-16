@@ -40,8 +40,6 @@ export default function Products_home() {
   const [injections, setInjections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [showAllTablets, setShowAllTablets] = useState(false);
-  const [showAllInjections, setShowAllInjections] = useState(false);
 
   useEffect(() => {
     fetchProductsBySection("TABLETS", setTablets);
@@ -90,7 +88,7 @@ export default function Products_home() {
     });
   };
 
-  const renderProductCard = (product, index) => {
+  const renderProductCard = (product, index, sectionType) => {
     return (
       <div key={product.p_id || index} className="product-card back top">
         <div className="product-image">
@@ -115,7 +113,11 @@ export default function Products_home() {
         <div className="detailsMainProduct">
           <div>
             <h1
-              className="product_name text-xl font-bold left"
+              className={
+                `product_name text-xl font-bold left${(product.pname && product.pname.trim().toUpperCase() === 'L CARNITINE+YOHIMBINE+CLEN')
+                  ? ' small-font' : ''
+                }`
+              }
             >
               {(() => {
                 const name = (product.pname || "").replace(/-/g, " ");
@@ -135,7 +137,7 @@ export default function Products_home() {
           </div>
           <div>
             <span className="vial right">
-              <span>Vial: </span>{" "}
+              <span>{sectionType === 'INJECTIONS' ? 'Vial:' : 'Tablet:'} </span>{" "}
               {product.vial
                 ? product.vial.replace(/tablets?/gi, "").trim()
                 : ""}
@@ -167,50 +169,41 @@ export default function Products_home() {
 
             <div className="center-section-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ flex: 1, textAlign: 'center' }}>
-                <ScrollFloat containerClassName="center-float-title mb-4">INJECTIONS</ScrollFloat>
+                <h2 className="center-float-title mb-4">INJECTIONS</h2>
               </div>
             </div>
-            {injections.length > 0 ? (
-              showAllInjections ? (
-                <>
-                  <div className="products-grid">
-                    {injections.map((product, index) => renderProductCard(product, index))}
-                  </div>
-                  <button className="seeAll" onClick={() => setShowAllInjections(false)}>BACK</button>
-                </>
-              ) : (
-                <>
-                  <div style={{ position: 'relative' }}>
-                    <Swiper
-                      modules={[Navigation, Pagination, Autoplay]}
-                      lazy='true'
-                      autoplay={{
-                        delay: 5000,
-                        disableOnInteraction: false,
-                      }}
-                      navigation
-                      spaceBetween={20}
-                      breakpoints={{
-                        320: { slidesPerView: 1 },
-                        640: { slidesPerView: 2 },
-                        1024: { slidesPerView: 3 },
-                      }}
-                      className="products-swiper"
-                    >
-                      {injections.map((product, index) => (
-                        <SwiperSlide key={index}>
-                          {renderProductCard(product, index)}
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                    {!showAllInjections && injections.length > 0 && (
-                      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-                        <button className="seeAll" onClick={() => setShowAllInjections(true)}>SEE ALL</button>
-                      </div>
-                    )}
-                  </div>
-                </>
-              )
+            {(injections.filter(product => product.pname !== 'Carntin+Yohimbine')).length > 0 ? (
+              <>
+                <div style={{ position: 'relative' }}>
+                  <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    lazy='true'
+                    autoplay={{
+                      delay: 5000,
+                      disableOnInteraction: false,
+                    }}
+                    navigation
+                    spaceBetween={20}
+                    breakpoints={{
+                      320: { slidesPerView: 1 },
+                      640: { slidesPerView: 2 },
+                      1024: { slidesPerView: 3 },
+                    }}
+                    className="products-swiper"
+                  >
+                    {injections.filter(product => product.pname !== 'Carntin+Yohimbine').map((product, index) => (
+                      <SwiperSlide key={index}>
+                        {renderProductCard(product, index, 'INJECTIONS')}
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  {injections.filter(product => product.pname !== 'Carntin+Yohimbine').length > 0 && (
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                      {/* <button className="seeAll">SEE ALL</button> */}
+                    </div>
+                  )}
+                </div>
+              </>
             ) : (
               <div className="no-products">
                 <p>No INJECTIONS products found.</p>
@@ -223,50 +216,48 @@ export default function Products_home() {
 
             <div className="center-section-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ flex: 1, textAlign: 'center' }}>
-                <ScrollFloat containerClassName="center-float-title">TABLETS</ScrollFloat>
+                <h2 className="center-float-title">TABLETS</h2>
               </div>
             </div>
+
             {tablets.length > 0 ? (
-              showAllTablets ? (
-                <>
-                  <div className="products-grid">
-                    {tablets.map((product, index) => renderProductCard(product, index))}
-                  </div>
-                  <button className="seeAll" onClick={() => setShowAllTablets(false)}>BACK</button>
-                </>
-              ) : (
-                <>
-                  <div style={{ position: 'relative' }}>
-                    <Swiper
-                      modules={[Navigation, Pagination, Autoplay]}
-                      lazy='true'
-                      autoplay={{
-                        delay: 5000,
-                        disableOnInteraction: false,
-                      }}
-                      navigation
-                      spaceBetween={20}
-                      breakpoints={{
-                        320: { slidesPerView: 1 },
-                        640: { slidesPerView: 2 },
-                        1024: { slidesPerView: 3 },
-                      }}
-                      className="products-swiper"
-                    >
-                      {tablets.map((product, index) => (
-                        <SwiperSlide key={index}>
-                          {renderProductCard(product, index)}
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                    {!showAllTablets && tablets.length > 0 && (
-                      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-                        <button className="seeAll" onClick={() => setShowAllTablets(true)}>SEE ALL</button>
-                      </div>
-                    )}
-                  </div>
-                </>
-              )
+              <div style={{ position: 'relative' }}>
+                <Swiper
+                  modules={[Navigation, Pagination, Autoplay]}
+                  lazy='true'
+                  autoplay={{
+                    delay: 5000,
+                    disableOnInteraction: false,
+                  }}
+                  navigation={{
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                  }}
+                  loop={true}
+                  spaceBetween={20}
+                  breakpoints={{
+                    320: { slidesPerView: 1 },
+                    640: { slidesPerView: 1 },
+                    1024: { slidesPerView: 1 },
+                  }}
+                  className="products-swiper"
+                >
+                  {tablets.map((product, idx) => (
+                    <SwiperSlide key={idx}>
+                      {renderProductCard(product, idx, 'TABLETS')}
+                    </SwiperSlide>
+                  ))}
+                  {/* Always render a dummy slide if only one product to force navigation arrows and looping */}
+                  {tablets.length === 1 && (
+                    <SwiperSlide style={{ opacity: 0, pointerEvents: 'none' }}>
+                      <div />
+                    </SwiperSlide>
+                  )}
+                  {/* Navigation buttons */}
+                  <div className="swiper-button-prev" style={{ color: '#000' }}></div>
+                  <div className="swiper-button-next" style={{ color: '#000' }}></div>
+                </Swiper>
+              </div>
             ) : (
               <div className="no-products">
                 <p>No TABLETS products found.</p>

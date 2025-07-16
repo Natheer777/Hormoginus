@@ -1,53 +1,107 @@
 .best-sells-section {
-  padding: 2rem 0;
+  padding: 3rem 0 4rem 0;
+  /* background: linear-gradient(135deg, var(--color-blue2) 0%, #414345 100%); */
+  position: relative;
+  overflow: hidden;
 }
 
 .best-sells-section .container {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
-
-.best-sells-section_title {
+.best-sells-section .animated-gradient-text{
+  backdrop-filter: blur(0px);
+}
+.best-sells-section .text-content{
+  font-size: 2rem;
+  font-family: 'NunitoBlack';
+  margin-bottom: 20px;
+  background-color: transparent;
+}
+.best-sells-section .products-title {
   text-align: center;
   font-family: 'NunitoBlack';
-  font-size: 2.4rem;
-  margin-bottom: 2rem;
-  letter-spacing: 2px;
-  color: white;
+  font-size: 2.8rem;
+  margin-bottom: 2.5rem;
+  letter-spacing: 2.5px;
+  color: var(--color-white);
+  /* text-shadow: 0 4px 24px var(--color-blue)55, 0 1px 0 var(--color-white)22; */
+  /* background: linear-gradient(90deg, var(--color-white) 0%, var(--color-blue) 50%, var(--color-white) 100%); */
+  /* -webkit-background-clip: text; */
+  /* -webkit-text-fill-color: transparent; */
 }
 
 .best-sells-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 2.5rem;
+  z-index: 2;
 }
 
 .best-sell-card {
-  border-radius: 16px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-  padding: 1.5rem;
+  background: rgba(255,255,255,0.10);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 var(--color-blue)40, 0 1.5px 12px 0 var(--color-white)22;
+  padding: 2.5rem 1.5rem 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-image: linear-gradient(120deg, var(--color-blue) 10%, var(--color-white) 90%) 1;
+  backdrop-filter: blur(12px) saturate(120%);
+  transition: transform 0.25s cubic-bezier(.4,2,.6,1), box-shadow 0.25s, border-color 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.best-sell-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, var(--color-blue)33 0%, var(--color-white)11 100%);
+  opacity: 0.25;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.best-sell-card:hover {
+  transform: translateY(-12px) scale(1.035) rotate(-1deg);
+  box-shadow: 0 16px 48px 0 var(--color-blue)66, 0 2px 16px 0 var(--color-white)33;
+  border-image: linear-gradient(120deg, var(--color-white) 10%, var(--color-blue) 90%) 1;
 }
 
 .best-sell-card h2 {
-    font-family: 'NunitoBlack';
-  margin-bottom: 1rem;
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: white;
+  font-family: 'NunitoBlack';
+  margin-bottom: 1.2rem;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 12px var(--color-blue)55, 0 1px 0 var(--color-white)22;
+  z-index: 2;
 }
 
 .best-sell-card video {
   width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+  max-width: 420px;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px var(--color-blue)33, 0 1px 8px var(--color-white)22;
+  border: 2px solid var(--color-white)33;
+  z-index: 2;
+  transition: box-shadow 0.25s, border-color 0.25s;
+}
+
+.best-sell-card:hover video {
+  box-shadow: 0 8px 32px var(--color-blue)77, 0 2px 16px var(--color-white)44;
+  border-color: var(--color-blue);
 }
 
 @media (min-width: 768px) {
   .best-sells-grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .best-sell-card {
+    min-height: 420px;
   }
 }

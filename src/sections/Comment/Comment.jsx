@@ -27,20 +27,18 @@ export default function Comment() {
           <div className="comment-card">
             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" className="user-img" />
             <p className="user-comment">
-              HOROGENUS supplements completely transformed my energy levels! Incredible taste and noticeable results.”
+              “HOROGENUS products exceeded my expectations in both quality and performance. I felt stronger, more focused, and energized within days!”
               <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
-
             </p>
           </div>
         </SwiperSlide>
 
         <SwiperSlide>
           <div className="comment-card">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" className="user-img" />
+            <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="User" className="user-img" />
             <p className="user-comment">
-              “I’ve tried many brands, but Thunder stands out in quality and performance. Highly recommend!”
+              “The purity and consistency of HOROGENUS supplements are unmatched. My workouts are more effective, and recovery is faster than ever.”
               <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
-
             </p>
           </div>
         </SwiperSlide>
@@ -49,11 +47,12 @@ export default function Comment() {
           <div className="comment-card">
             <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="User" className="user-img" />
             <p className="user-comment">
-              “From packaging to performance, HOROGENUS delivers excellence. My new go-to supplement brand!”
+              “HOROGENUS delivers pharmaceutical-grade quality you can trust. Visible results, enhanced endurance, and no side effects at all!”
               <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </p>
           </div>
         </SwiperSlide>
+
       </Swiper>
     </div>
   );

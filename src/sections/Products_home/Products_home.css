@@ -103,6 +103,15 @@
   font-family: 'LittleBubble';
   color: #25356e !important;
   text-shadow: 0 0 2px white, 0 0 2px white, 0 0 3px white !important;
+  word-break: break-word;
+  white-space: normal;
+  max-width: 200px;
+  line-height: 1.1;
+  display: block;
+  margin: 0 auto;
+}
+.Products_home .product_name.small-font {
+  font-size: 15px !important;
 }
 .Products_home .caliber{
   position: absolute;
