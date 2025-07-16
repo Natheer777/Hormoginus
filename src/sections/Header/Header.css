@@ -1,9 +1,10 @@
 .Headerr{
+    position: relative;
     height: 90vh;
     color: var(--color-white);
     position: relative;
-    overflow: hidden;
-    mask-image: linear-gradient(to bottom, transparent 0%, black 0%, black 90%, transparent 100%);
+    /* overflow: hidden; */
+    /* mask-image: linear-gradient(to bottom, transparent 0%, black 0%, black 90%, transparent 100%); */
 }
 .swiper{
     width: 100% !important;
@@ -13,11 +14,15 @@
 .header-swiper {
     width: 100%;
     height: 100%;
+    position: relative;
+    z-index: 0;
 }
 
 .header-slide {
     width: 100%;
     height: 100%;
+    position: relative;
+    z-index: 0;
 }
 
 .slide-background {
@@ -27,6 +32,7 @@
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
+    z-index: 0;
 }
 
 .slide-overlay {
@@ -42,15 +48,16 @@
 }
 
 .content_header{
+    /* margin-top: 150px !important; */
     position: absolute;
     text-align: center;
     width:90%;
     max-width: 1200px;
     padding: 32px 24px;
-    z-index: 1000;
-    /* top: 200px; */
-    overflow: hidden;
-    background: rgba(22, 34, 70, 0.8);
+    z-index: 9999;
+    top: 200px;
+    /* overflow: hidden; */
+    background: rgba(22, 34, 70, 0.881);
     color: #fff;
     border-radius: 32px;
     border: 1px solid #b71c3b;

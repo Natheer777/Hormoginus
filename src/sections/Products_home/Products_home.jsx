@@ -2,55 +2,46 @@ import axios from "axios";
 import "./Products_home.css";
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import ScrollFloat from '../../components/ScrollFloat/ScrollFloat';
 
-// دالة لتكبير أول حرف من النص
 function capitalizeFirstLetter(str) {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// كائن ألوان المنتجات المنسوخ من Details_Product.jsx
 const productColors = {
   DECA250mg: "#3bb9eb",
   NPP100mg: "#3bb9eb",
   "\tprimo100mg": "#3bb9eb",
   Sustalon250mg: "#3bb9eb",
+
   "Carntin+Yohimbine": "#008081",
+
   MASTE100mg: "#008081",
   MASTERON200mg: "#008081",
+
   "TEST-C200": "#25356e",
   "TEST-E250": "#25356e",
   "TEST-P100": "#25356e",
+
   "TREN-A100": "#6564aa",
   "TREN-E200": "#6564aa",
+
   Bolde250mg: "#6564aa",
 };
 
-function getProductColor(product) {
-  if (!product || !product.pname) return "var(--color-blue)";
-  const normalized = product.pname.replace(/\s|\t/g, "").toLowerCase();
-  for (const key in productColors) {
-    const normalizedKey = key.replace(/\s|\t/g, "").toLowerCase();
-    if (normalized === normalizedKey) {
-      return productColors[key];
-    }
-  }
-  const name = product.pname.toLowerCase();
-  if (name.includes("tablet")) return "var(--color-blue)";
-  if (name.includes("inject")) return "var(--color-blue2)";
-  return "var(--color-blue)";
-}
 
 export default function Products_home() {
   const [tablets, setTablets] = useState([]);
   const [injections, setInjections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showAllTablets, setShowAllTablets] = useState(false);
+  const [showAllInjections, setShowAllInjections] = useState(false);
 
   useEffect(() => {
     fetchProductsBySection("TABLETS", setTablets);
@@ -100,23 +91,24 @@ export default function Products_home() {
   };
 
   const renderProductCard = (product, index) => {
-    const color = getProductColor(product);
     return (
       <div key={product.p_id || index} className="product-card back top">
         <div className="product-image">
           {product.img_url ? (
-            <img
-            loading="lazy"
-              src={product.img_url}
-              alt={product.pname || 'product'}
-              style={{
-                borderRadius: "10px",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-              }}
-              onError={e => { e.target.style.display = 'none'; }}
-            />
+            <div>
+              <img
+                src={product.img_url}
+                alt={product.pname || 'product'}
+                style={{
+                  borderRadius: "10px",
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                }}
+                loading="lazy"
+                onError={e => { e.target.style.display = 'none'; }}
+              />
+            </div>
           ) : (
-            <div className="no-image">No Image</div>
+            <div></div>
           )}
         </div>
 
@@ -124,7 +116,6 @@ export default function Products_home() {
           <div>
             <h1
               className="product_name text-xl font-bold left"
-              style={{ color }}
             >
               {(() => {
                 const name = (product.pname || "").replace(/-/g, " ");
@@ -150,7 +141,7 @@ export default function Products_home() {
                 : ""}
             </span>
             <p className="caliber right">
-              {formatTextWithNumbers(product.caliber, color)}
+              {formatTextWithNumbers(product.caliber, productColors[product.pname] || undefined)}
             </p>
           </div>
         </div>
@@ -174,90 +165,138 @@ export default function Products_home() {
 
           <div className="INJECTIONS">
 
-            <ScrollFloat
-              style={{ textAlign: "center", marginTop: "3rem" }}
-            >
-              INJECTIONS
-            </ScrollFloat>
+            <div className="center-section-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ flex: 1, textAlign: 'center' }}>
+                <ScrollFloat containerClassName="center-float-title mb-4">INJECTIONS</ScrollFloat>
+              </div>
+            </div>
             {injections.length > 0 ? (
-              <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                spaceBetween={20}
-                breakpoints={{
-                  320: { slidesPerView: 1 },
-                  640: { slidesPerView: 2 },
-                  1024: { slidesPerView: 3 },
-                }}
-                className="products-swiper"
-              >
-                {injections.map((product, index) => (
-                  <SwiperSlide key={index}>
-                    {renderProductCard(product, index)}
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+              showAllInjections ? (
+                <>
+                  <div className="products-grid">
+                    {injections.map((product, index) => renderProductCard(product, index))}
+                  </div>
+                  <button className="seeAll" onClick={() => setShowAllInjections(false)}>BACK</button>
+                </>
+              ) : (
+                <>
+                  <div style={{ position: 'relative' }}>
+                    <Swiper
+                      modules={[Navigation, Pagination, Autoplay]}
+                      lazy='true'
+                      autoplay={{
+                        delay: 5000,
+                        disableOnInteraction: false,
+                      }}
+                      navigation
+                      spaceBetween={20}
+                      breakpoints={{
+                        320: { slidesPerView: 1 },
+                        640: { slidesPerView: 2 },
+                        1024: { slidesPerView: 3 },
+                      }}
+                      className="products-swiper"
+                    >
+                      {injections.map((product, index) => (
+                        <SwiperSlide key={index}>
+                          {renderProductCard(product, index)}
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                    {!showAllInjections && injections.length > 0 && (
+                      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                        <button className="seeAll" onClick={() => setShowAllInjections(true)}>SEE ALL</button>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )
             ) : (
               <div className="no-products">
                 <p>No INJECTIONS products found.</p>
               </div>
             )}
-            {/* <button className="seeAll">SEE ALL</button> */}
           </div>
 
 
           <div className="TABLETS">
 
-            <ScrollFloat style={{ textAlign: "center", marginTop: "2rem" }}>TABLETS</ScrollFloat>
+            <div className="center-section-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ flex: 1, textAlign: 'center' }}>
+                <ScrollFloat containerClassName="center-float-title">TABLETS</ScrollFloat>
+              </div>
+            </div>
             {tablets.length > 0 ? (
-              <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                spaceBetween={20}
-                breakpoints={{
-                  320: { slidesPerView: 1 },
-                  640: { slidesPerView: 2 },
-                  1024: { slidesPerView: 3 },
-                }}
-                className="products-swiper"
-              >
-                {tablets.map((product, index) => (
-                  <SwiperSlide key={index}>
-                    {renderProductCard(product, index)}
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+              showAllTablets ? (
+                <>
+                  <div className="products-grid">
+                    {tablets.map((product, index) => renderProductCard(product, index))}
+                  </div>
+                  <button className="seeAll" onClick={() => setShowAllTablets(false)}>BACK</button>
+                </>
+              ) : (
+                <>
+                  <div style={{ position: 'relative' }}>
+                    <Swiper
+                      modules={[Navigation, Pagination, Autoplay]}
+                      lazy='true'
+                      autoplay={{
+                        delay: 5000,
+                        disableOnInteraction: false,
+                      }}
+                      navigation
+                      spaceBetween={20}
+                      breakpoints={{
+                        320: { slidesPerView: 1 },
+                        640: { slidesPerView: 2 },
+                        1024: { slidesPerView: 3 },
+                      }}
+                      className="products-swiper"
+                    >
+                      {tablets.map((product, index) => (
+                        <SwiperSlide key={index}>
+                          {renderProductCard(product, index)}
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                    {!showAllTablets && tablets.length > 0 && (
+                      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                        <button className="seeAll" onClick={() => setShowAllTablets(true)}>SEE ALL</button>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )
             ) : (
               <div className="no-products">
                 <p>No TABLETS products found.</p>
               </div>
             )}
-            {/* <button className="seeAll">SEE ALL</button> */}
           </div>
         </>
       )}
-        <div className="product-features">
-                    <div className="feature-item top">
-                        <div className="feature-icon">🔬</div>
-                        <h4>Advanced Technology</h4>
-                        <p>Cutting-edge pharmaceutical technology</p>
-                    </div>
-                    <div className="feature-item top">
-                        <div className="feature-icon">🛡️</div>
-                        <h4>Quality Standards</h4>
-                        <p>Strict quality control and safety measures</p>
-                    </div>
-                    <div className="feature-item top">
-                        <div className="feature-icon">🌍</div>
-                        <h4>Global Trust</h4>
-                        <p>Trusted by clients worldwide</p>
-                    </div>
-                    <div className="feature-item top">
-                        <div className="feature-icon">⚡</div>
-                        <h4>Performance Support</h4>
-                        <p>Designed for optimal results</p>
-                    </div>
-                </div>
+      <div className="product-features mb-4">
+        <div className="feature-item top">
+          <div className="feature-icon">🔬</div>
+          <h4>Advanced Technology</h4>
+          <p>Cutting-edge pharmaceutical technology</p>
+        </div>
+        <div className="feature-item top">
+          <div className="feature-icon">🛡️</div>
+          <h4>Quality Standards</h4>
+          <p>Strict quality control and safety measures</p>
+        </div>
+        <div className="feature-item top">
+          <div className="feature-icon">🌍</div>
+          <h4>Global Trust</h4>
+          <p>Trusted by clients worldwide</p>
+        </div>
+        <div className="feature-item top">
+          <div className="feature-icon">⚡</div>
+          <h4>Performance Support</h4>
+          <p>Designed for optimal results</p>
+        </div>
+      </div>
     </div>
   );
 }

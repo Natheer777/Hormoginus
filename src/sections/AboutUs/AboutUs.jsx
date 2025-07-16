@@ -1,9 +1,9 @@
-import './OurTeam.css'
+import './AboutUs.css'
 import teamImage from '../../assets/imageForOtherSection/assets_task_01jzpcpmmgenbb2cbhqsa27g79_1752024517_img_0.png'
 import OurProducts from '../OurProducts/OurProducts'
 import ScrollFloat from '../../components/ScrollFloat/ScrollFloat';
 
-export default function OurTeam() {
+export default function AboutUs() {
     return (
         <div className='overlay'>
 

@@ -1,5 +1,5 @@
 import { Background } from "../../../components";
-import { Navbar, Header, Footer, About_us, Comment, Verfiy_product, ContactUs, Products_home, OurTeam, OurProducts } from "../../sections";
+import { Navbar, Header, Footer, AboutUs, Comment, Verfiy_product, ContactUs, Products_home, BestSells } from "../../sections";
 
 export default function Home() {
   return (
@@ -7,10 +7,9 @@ export default function Home() {
       <Navbar />
       <Background />
       <Header />
-      {/* <About_us /> */}
-      <OurTeam />
-      {/* <OurProducts /> */}
+      <AboutUs />     
       <Products_home />
+      <BestSells />
       <Comment />
       <ContactUs />
       <Verfiy_product />

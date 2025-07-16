@@ -1,0 +1,53 @@
+.best-sells-section {
+  padding: 2rem 0;
+}
+
+.best-sells-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.best-sells-section_title {
+  text-align: center;
+  font-family: 'NunitoBlack';
+  font-size: 2.4rem;
+  margin-bottom: 2rem;
+  letter-spacing: 2px;
+  color: white;
+}
+
+.best-sells-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.best-sell-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.best-sell-card h2 {
+    font-family: 'NunitoBlack';
+  margin-bottom: 1rem;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: white;
+}
+
+.best-sell-card video {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+}
+
+@media (min-width: 768px) {
+  .best-sells-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

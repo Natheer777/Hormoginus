@@ -81,12 +81,6 @@
   font-size: 12px;
 }
 
-.product-card:hover,
-.product-card.active {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-  background: rgba(255, 255, 255, 0.15);
-}
 
 .product-image-container {
   position: relative;
@@ -99,10 +93,6 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s ease;
-}
-
-.product-card:hover .product-image {
-  transform: scale(1.1);
 }
 
 .product-overlay {
@@ -120,7 +110,9 @@
   align-items: flex-end;
   padding: 20px;
 }
-
+.our-products-section .text-content{
+  font-size: 2.4rem;
+}
 .product-content {
   padding: 25px;
 }
@@ -155,9 +147,10 @@ font-family: 'NunitoBlack';
 }
 
 .feature-item {
+  box-shadow: 1px 1px 14px 6px #00000050;
   text-align: center;
   padding: 30px 20px;
-  background: linear-gradient(40deg, var(--color-blue) 0%, #27367b 100%) !important;
+  background: linear-gradient(165deg, var(--color-blue) 0%, #27367b 100%) !important;
   border-radius: 15px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -301,32 +294,10 @@ font-family: 'NunitoBlack';
   }
 }
 
-/* Animation Classes */
-/* @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.product-card {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.product-card:nth-child(1) { animation-delay: 0.1s; }
-.product-card:nth-child(2) { animation-delay: 0.2s; }
-.product-card:nth-child(3) { animation-delay: 0.3s; }
-.product-card:nth-child(4) { animation-delay: 0.4s; } */
-
 .product-features {
   animation: fadeInUp 0.8s ease-out 0.5s both;
 }
 
-/* Focus States for Accessibility */
 .learn-more-btn:focus {
   outline: 2px solid #ffd700;
   outline-offset: 2px;
