@@ -2,6 +2,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import DetailsProduct from "../sections/Details_Product/Details_Product";
+import "./VerifyProduct.css";
+import { Footer, Verfiy_product } from "../sections";
 
 const VerifyProduct = ({ id: productId }) => {
   const navigate = useNavigate();
@@ -52,11 +54,11 @@ const VerifyProduct = ({ id: productId }) => {
           setProduct(res.data.data[0]);
           setIsLoading(false);
         } else {
-          setError("Product not found");
+          setError("This product has been previously verified.");
           setIsLoading(false);
         }
       } else {
-        setError("Product not found");
+        setError("This product has been previously verified.");
         setIsLoading(false);
         navigate("/*", { replace: true });
       }
@@ -87,7 +89,7 @@ const VerifyProduct = ({ id: productId }) => {
     // حذف الرابط بعد مدة (مثلاً 5 دقائق = 300000 ms) — هنا 10 ثوانٍ لأغراض التجربة
     const deletionTimer = setTimeout(() => {
       handlePageLeave();
-    }, 10000);
+    }, 1000);
 
     // عند مغادرة الصفحة (reload / close tab)
     window.addEventListener("beforeunload", handlePageLeave);
@@ -102,15 +104,21 @@ const VerifyProduct = ({ id: productId }) => {
   if (isLoading) return <p></p>;
   if (error)
     return (
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: "3rem",
-          fontSize: "2rem",
-          color: "#dc3545",
-        }}
-      >
-        {error}
+      <div className="error-container">
+        <p className="error-message">{error}</p>
+        <p className="error-subtitle">
+          عذراً، لم يتم العثور على المنتج المطلوب
+        </p>
+        <button
+          className="retry-button"
+          onClick={() => {
+            setError(null);
+            setIsLoading(true);
+            fetchProduct(confLink, productId);
+          }}
+        >
+          إعادة المحاولة
+        </button>
       </div>
     );
 
@@ -118,25 +126,30 @@ const VerifyProduct = ({ id: productId }) => {
 
   return (
     <div>
-      <div
-        style={{
-          background: "#28a745",
-          color: "#fff",
-          padding: "1rem",
-          borderRadius: "10px",
-          textAlign: "center",
-          fontSize: "2rem",
-          margin: "2rem auto",
-          maxWidth: "500px",
-          boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-        }}
-      >
-        Check Verified{" "}
-        <span style={{ fontSize: "2.5rem", verticalAlign: "middle" }}>✅</span>
+      <div className="verification-container">
+        {/* شريط ملون متحرك */}
+        <div className="verification-shimmer" />
+
+        {/* تأثيرات بصرية إضافية */}
+        <div className="verification-pulse" />
+
+        <div className="verification-content">
+          <div className="verification-title">
+            Check Verified
+          </div>
+          <div className="verification-icon">
+            ✅
+          </div>
+          <div className="verification-subtitle">
+            This product is original
+          </div>
+        </div>
       </div>
       <div style={{ marginTop: "2rem" }}>
-        <DetailsProduct productData={product} overrideLoading={false} />
+        <DetailsProduct productData={product} overrideLoading={false} suppressErrors={true} />
       </div>
+      <Verfiy_product />
+      <Footer />
     </div>
   );
 };

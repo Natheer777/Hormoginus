@@ -5,7 +5,7 @@ import "./CircularText.css";
 const getRotationTransition = (duration, from, loop = true) => ({
     from,
     to: from + 360,
-    ease: "easeInOut",
+    ease: "linear",
     duration,
     type: "tween",
     repeat: loop ? Infinity : 0,
@@ -15,8 +15,8 @@ const getTransition = (duration, from) => ({
     rotate: getRotationTransition(duration, from),
     scale: {
         type: "spring",
-        damping: 10,
-        stiffness: 100,
+        damping: 20,
+        stiffness: 300,
     },
 });
 
@@ -41,6 +41,7 @@ const CircularText = ({
 
     const handleHoverStart = () => {
         const start = rotation.get();
+        console.log("CircularText mounted with text:", text);
         if (!onHover) return;
 
         let transitionConfig;
@@ -87,7 +88,7 @@ const CircularText = ({
     return (
         <motion.div
             className={`circular-text ${className}`}
-            style={{ rotate: rotation.get() }}
+            style={{ rotate: rotation }}
             initial={{ rotate: 0 }}
             animate={controls}
             onMouseEnter={handleHoverStart}
@@ -95,10 +96,12 @@ const CircularText = ({
         >
             {letters.map((letter, i) => {
                 const rotationDeg = (360 / letters.length) * i;
-                const radius = 50; // Reduced from 80 to make the circle smaller
+                const radius = 80; // Radius of the circle
                 const x = Math.cos((rotationDeg * Math.PI) / 180) * radius;
                 const y = Math.sin((rotationDeg * Math.PI) / 180) * radius;
-                const transform = `translate(${x}px, ${y}px) rotate(${rotationDeg}deg)`;
+                // Counter-rotate to keep letters upright and readable
+                const letterRotation = rotationDeg + 90;
+                const transform = `translate(${x}px, ${y}px) rotate(${letterRotation}deg)`;
 
                 return (
                     <span key={i} style={{ transform, WebkitTransform: transform }}>

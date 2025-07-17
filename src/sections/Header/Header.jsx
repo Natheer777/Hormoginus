@@ -62,7 +62,7 @@ export default function Header() {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="content_header" style={{ zIndex: 9999, position: 'absolute', top: 210, left: '50%', transform: 'translateX(-50%)' }}>
+        <div className="content_header" style={{ zIndex: 9999, position: 'absolute', top: 185 , left: '50%', transform: 'translateX(-50%)' }}>
           <p>{slides[activeIndex].text}</p>
         </div>
       </div>

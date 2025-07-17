@@ -27,7 +27,7 @@ export default function Comment() {
           <div className="comment-card">
             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" className="user-img" />
             <p className="user-comment">
-              “HOROGENUS products exceeded my expectations in both quality and performance. I felt stronger, more focused, and energized within days!”
+              “HORMOGENUS products exceeded my expectations in both quality and performance. I felt stronger, more focused, and energized within days!”
               <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </p>
           </div>
@@ -37,7 +37,7 @@ export default function Comment() {
           <div className="comment-card">
             <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="User" className="user-img" />
             <p className="user-comment">
-              “The purity and consistency of HOROGENUS supplements are unmatched. My workouts are more effective, and recovery is faster than ever.”
+              “The purity and consistency of HORMOGENUS supplements are unmatched. My workouts are more effective, and recovery is faster than ever.”
               <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </p>
           </div>
@@ -47,7 +47,7 @@ export default function Comment() {
           <div className="comment-card">
             <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="User" className="user-img" />
             <p className="user-comment">
-              “HOROGENUS delivers pharmaceutical-grade quality you can trust. Visible results, enhanced endurance, and no side effects at all!”
+              “HORMOGENUS delivers pharmaceutical-grade quality you can trust. Visible results, enhanced endurance, and no side effects at all!”
               <br /><FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </p>
           </div>

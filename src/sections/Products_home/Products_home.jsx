@@ -18,7 +18,7 @@ const productColors = {
   "primo100mg": "#3bb9eb",
   Sustalon250mg: "#3bb9eb",
 
-  "Carntin+Yohimbine": "#008081",
+  "L-CARNITINE+YOHIMBINE+CLEN": "#008081",
 
   MASTE100mg: "#008081",
   MASTERON200mg: "#008081",
@@ -274,22 +274,22 @@ export default function Products_home() {
         </>
       )}
       <div className="product-features mb-4">
-        <div className="feature-item top">
+        <div className="feature-item ">
           <div className="feature-icon">🔬</div>
           <h4>Advanced Technology</h4>
           <p>Cutting-edge pharmaceutical technology</p>
         </div>
-        <div className="feature-item top">
+        <div className="feature-item ">
           <div className="feature-icon">🛡️</div>
           <h4>Quality Standards</h4>
           <p>Strict quality control and safety measures</p>
         </div>
-        <div className="feature-item top">
+        <div className="feature-item ">
           <div className="feature-icon">🌍</div>
           <h4>Global Trust</h4>
           <p>Trusted by clients worldwide</p>
         </div>
-        <div className="feature-item top">
+        <div className="feature-item ">
           <div className="feature-icon">⚡</div>
           <h4>Performance Support</h4>
           <p>Designed for optimal results</p>

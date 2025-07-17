@@ -147,7 +147,7 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default function Details_product({ productData: productDataProp, overrideLoading, productId, productName }) {
+export default function Details_product({ productData: productDataProp, overrideLoading, productId, productName, suppressErrors = false }) {
   const params = useParams();
   // تتبع القيم المستلمة
   console.log("Details_Product.jsx - productName prop:", productName, "useParams:", params);
@@ -196,7 +196,15 @@ export default function Details_product({ productData: productDataProp, override
   }, [productData]);
 
   if (overrideLoading === false ? false : loading) return <p></p>;
-  if (error) return <p>{error}</p>;
+  if (error && !suppressErrors) return (
+    <div className="details-error-container">
+      <p className="details-error-message">{error}</p>
+      <p className="details-error-subtitle">
+        This product has been previously verified. <br />
+        (This QR code has been scanned before.)
+      </p>
+    </div>
+  );
   if (!productData) return <p></p>;
 
   const {
