@@ -120,32 +120,49 @@ const CircularProgress = ({
     </div>
   );
 };
-
 const productColors = {
-  DECA250mg: "#3bb9eb",
-  NPP100mg: "#3bb9eb",
-  "	primo100mg": "#3bb9eb",
-  Sustalon250mg: "#3bb9eb",
+  "DECA250mg": "#3bb9eb",
+  "NPP100mg": "#3bb9eb",
+  "primo100mg": "#3bb9eb",
+  "Sustalon250mg": "#3bb9eb",
 
-  "Carntin+Yohimbine": "#008081",
-
-  MASTE100mg: "#008081",
-  MASTERON200mg: "#008081",
+  "L-carnitine+Yohimbine+Clen200mg": "#008081",
+  "MASTE100mg": "#008081",
+  "MASTERON200mg": "#008081",
 
   "TEST-C200": "#25356e",
   "TEST-E250": "#25356e",
   "TEST-P100": "#25356e",
 
-  "TREN-A100": "#6564aa",
-  "TREN-E200": "#6564aa",
+  "TREN-A100mg": "#6564aa",
+  "TREN-E200mg": "#6564aa",
 
-  Bolde250mg: "#6564aa",
+  "Bolde250mg": "#6564aa",
+
+  // "Carntin+Yohimbine": "#008081",
+  "ANAVAR-10mg": "#6564aa",
+  "CLENBUT-40mg": "#008081",
+  "DIANABOL-10mg": "#3bb9eb",
+  "OXYTHOL-50mg": "#25356e",
+  "WINSTROL-10mg": "#6564aa"
 };
-
 function capitalizeFirstLetter(str) {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+// دالة JSX مخصصة لعرض اسم المنتج بشكل مقسم وملون (نفس منطق Products_home)
+const renderSpecialLCarnitineName = () => (
+  <div style={{ lineHeight: 1.1 }}>
+    <div style={{  letterSpacing: '1px' }}>
+      L-Carnitine
+    </div>
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+      <span style={{  }}>+ Yohimbine</span>
+    </div>
+    <div style={{  marginTop: 2 }}>+ CLEN</div>
+  </div>
+);
 
 export default function Details_product({ productData: productDataProp, overrideLoading, productId, productName, suppressErrors = false }) {
   const params = useParams();
@@ -206,6 +223,15 @@ export default function Details_product({ productData: productDataProp, override
     </div>
   );
   if (!productData) return <p></p>;
+
+  // إخفاء منتج Carntin+Yohimbine
+  if (productData.pname === 'Carntin+Yohimbine') {
+    return (
+      <div className="details-error-container">
+        <p className="details-error-message">This product not found</p>
+      </div>
+    );
+  }
 
   const {
     pname,
@@ -292,11 +318,15 @@ export default function Details_product({ productData: productDataProp, override
                       className="product_name text-xl font-bold  left"
                       style={{ color: productColor }}
                     >
-                      {(() => {
-                        const name = pname.replace(/-/g, " ");
-                        const match = name.match(/^[^\d]*/);
-                        return match ? match[0].trim().toUpperCase() : name.toUpperCase();
-                      })()}
+                      {/* تخصيص عرض اسم المنتج إذا كان هو المطلوب */}
+                      {(pname && pname.replace(/-/g, '').replace(/\s+/g, '').toLowerCase() === 'lcarnitine+yohimbine+clen200mg')
+                        ? renderSpecialLCarnitineName()
+                        : (() => {
+                          const name = pname.replace(/-/g, " ");
+                          const match = name.match(/^[^\d]*/);
+                          return match ? match[0].trim().toUpperCase() : name.toUpperCase();
+                        })()
+                      }
                     </h1>
                     <p className="sec_name">{capitalizeFirstLetter(science_name.replace(/[()]/g, ""))}</p>
                     <span className="price left"><span>Price: </span>{price}$</span>

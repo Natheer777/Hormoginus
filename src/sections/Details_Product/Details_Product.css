@@ -150,7 +150,7 @@
   background-color: var(--color-blue2);
   padding: 8px;
 }
-.caliber {
+ .caliber {
   color: white;
   font-family: "NunitoBlack";
   margin-top: 5px;
@@ -281,89 +281,7 @@
   font-size: 100%;
 }
 
-.proprties_product ul li:nth-child(1) {
-  background: -webkit-linear-gradient(30deg, #1160aa, #04044f) !important;
-  border-bottom-left-radius: 20px;
-}
-.proprties_product_1 {
-  border-bottom-left-radius: 20px;
-}
-.proprties_product ul li:nth-child(1) {
-  border-top-left-radius: 50px;
-}
-.proprties_product_1 {
-  border-top-left-radius: 50px;
-}
-.proprties_product ul li:nth-child(1) {
-  border-bottom-right-radius: 20px;
-}
-.proprties_product_1 {
-  border-bottom-right-radius: 20px;
-}
-.proprties_product ul li:nth-child(1) {
-  border-top-right-radius: 20px;
-}
-.proprties_product_1 {
-  border-top-right-radius: 20px;
-}
 
-.proprties_product ul li:nth-child(2) {
-  background: -webkit-linear-gradient(180deg, #1160aa, #04044f) !important;
-  border-bottom-left-radius: 20px;
-}
-.proprties_product_2 {
-  border-bottom-left-radius: 20px;
-}
-.proprties_product ul li:nth-child(2) {
-  border-top-left-radius: 20px;
-}
-.proprties_product_2 {
-  border-top-left-radius: 20px;
-}
-.proprties_product ul li:nth-child(2) {
-  border-bottom-right-radius: 20px;
-}
-.proprties_product_2 {
-  border-bottom-right-radius: 20px;
-}
-.proprties_product ul li:nth-child(2) {
-  border-top-right-radius: 50px;
-}
-.proprties_product_2 {
-  border-top-right-radius: 50px;
-}
-
-.proprties_product ul li:nth-child(3) {
-  background: -webkit-linear-gradient(
-    180deg,
-    #04044f,
-    #1160aa,
-    #04044f
-  ) !important;
-
-  border-bottom-left-radius: 20px;
-}
-.proprties_product_3 {
-  border-bottom-left-radius: 20px;
-}
-.proprties_product ul li:nth-child(3) {
-  border-top-left-radius: 20px;
-}
-.proprties_product_3 {
-  border-top-left-radius: 20px;
-}
-.proprties_product ul li:nth-child(3) {
-  border-bottom-right-radius: 20px;
-}
-.proprties_product_3 {
-  border-bottom-right-radius: 20px;
-}
-.proprties_product ul li:nth-child(3) {
-  border-top-right-radius: 20px;
-}
-.proprties_product_3 {
-  border-top-right-radius: 20px;
-}
 .Warning {
   font-family: "NunitoSemiBold";
 }
@@ -408,8 +326,8 @@
   font-size: calc(1.375rem + 1.5vw);
   color: var(--color-blue);
 }
-.text-content{
-  color: white;
+.swiper_product .text-content{
+  color: white ;
   font-size: 20px;
 }
 

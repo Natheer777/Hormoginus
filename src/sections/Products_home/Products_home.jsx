@@ -13,25 +13,44 @@ function capitalizeFirstLetter(str) {
 }
 
 const productColors = {
-  DECA250mg: "#3bb9eb",
-  NPP100mg: "#3bb9eb",
+  "DECA250mg": "#3bb9eb",
+  "NPP100mg": "#3bb9eb",
   "primo100mg": "#3bb9eb",
-  Sustalon250mg: "#3bb9eb",
+  "Sustalon250mg": "#3bb9eb",
 
-  "L-CARNITINE+YOHIMBINE+CLEN": "#008081",
-
-  MASTE100mg: "#008081",
-  MASTERON200mg: "#008081",
+  "L-carnitine+Yohimbine+Clen200mg": "#008081",
+  "MASTE100mg": "#008081",
+  "MASTERON200mg": "#008081",
 
   "TEST-C200": "#25356e",
   "TEST-E250": "#25356e",
   "TEST-P100": "#25356e",
 
-  "TREN-A100": "#6564aa",
-  "TREN-E200": "#6564aa",
+  "TREN-A100mg": "#6564aa",
+  "TREN-E200mg": "#6564aa",
 
-  Bolde250mg: "#6564aa",
+  "Bolde250mg": "#6564aa",
+
+  // "Carntin+Yohimbine": "#008081",
+  "ANAVAR-10mg": "#6564aa",
+  "CLENBUT-40mg": "#008081",
+  "DIANABOL-10mg": "#3bb9eb",
+  "OXYTHOL-50mg": "#25356e",
+  "WINSTROL-10mg": "#6564aa"
 };
+
+// دالة JSX مخصصة لعرض اسم المنتج بشكل مقسم وملون
+const renderSpecialLCarnitineName = () => (
+  <div style={{ lineHeight: 1.1 }}>
+    <div style={{ fontSize: '2rem',  letterSpacing: '1px' }}>
+      L-Carnitine
+    </div>
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+      <span style={{ fontSize: '1.2rem', }}>+ Yohimbine</span>
+    </div>
+    <div style={{ fontSize: '1.2rem',  marginTop: 2 }}>+ CLEN</div>
+  </div>
+);
 
 
 export default function Products_home() {
@@ -119,17 +138,21 @@ export default function Products_home() {
               }
               style={{ color: productColors[product.pname] || undefined }}
             >
-              {(() => {
-                let name = (product.pname || '').replace(/-/g, ' ');
-                // Always remove leading 'L ' if the rest matches target
-                if (name.trim().toUpperCase().replace(/^L\s+/, '') === 'CARNITINE+YOHIMBINE+CLEN') {
-                  name = name.replace(/^L\s+/i, '');
-                }
-                const match = name.match(/^[^\d]*/);
-                return match
-                  ? match[0].trim().toUpperCase()
-                  : name.toUpperCase();
-              })()}
+              {/* تخصيص عرض اسم المنتج إذا كان هو المطلوب */}
+              {(product.pname && product.pname.replace(/-/g, '').replace(/\s+/g, '').toLowerCase() === 'lcarnitine+yohimbine+clen200mg')
+                ? renderSpecialLCarnitineName()
+                : (() => {
+                  let name = (product.pname || '').replace(/-/g, ' ');
+                  // Always remove leading 'L ' if the rest matches target
+                  if (name.trim().toUpperCase().replace(/^L\s+/, '') === 'CARNITINE+YOHIMBINE+CLEN') {
+                    name = name.replace(/^L\s+/i, '');
+                  }
+                  const match = name.match(/^[^\d]*/);
+                  return match
+                    ? match[0].trim().toUpperCase()
+                    : name.toUpperCase();
+                })()
+              }
             </h1>
             <p className="sec_name">
               {product.science_name
@@ -186,7 +209,7 @@ export default function Products_home() {
                     modules={[Navigation, Pagination, Autoplay]}
                     lazy='true'
                     autoplay={{
-                      delay: 5000,
+                      delay: 50000,
                       disableOnInteraction: false,
                     }}
                     navigation
@@ -227,13 +250,13 @@ export default function Products_home() {
               </div>
             </div>
 
-            {tablets.length > 0 ? (
+            {tablets.filter(product => product.pname !== 'Carntin+Yohimbine').length > 0 ? (
               <div style={{ position: 'relative' }}>
                 <Swiper
                   modules={[Navigation, Pagination, Autoplay]}
                   lazy='true'
                   autoplay={{
-                    delay: 5000,
+                    delay: 50000,
                     disableOnInteraction: false,
                   }}
                   navigation={{
@@ -249,13 +272,13 @@ export default function Products_home() {
                   }}
                   className="products-swiper"
                 >
-                  {tablets.map((product, idx) => (
+                  {tablets.filter(product => product.pname !== 'Carntin+Yohimbine').map((product, idx) => (
                     <SwiperSlide key={idx}>
                       {renderProductCard(product, idx, 'TABLETS')}
                     </SwiperSlide>
                   ))}
                   {/* Always render a dummy slide if only one product to force navigation arrows and looping */}
-                  {tablets.length === 1 && (
+                  {tablets.filter(product => product.pname !== 'Carntin+Yohimbine').length === 1 && (
                     <SwiperSlide style={{ opacity: 0, pointerEvents: 'none' }}>
                       <div />
                     </SwiperSlide>
