@@ -103,26 +103,10 @@ const VerifyProduct = ({ id: productId }) => {
 
   if (isLoading) return <p></p>;
   if (error)
-    return (
-      <div className="error-container">
-        <p className="error-message">{error}</p>
-        <p className="error-subtitle">
-          عذراً، لم يتم العثور على المنتج المطلوب
-        </p>
-        <button
-          className="retry-button"
-          onClick={() => {
-            setError(null);
-            setIsLoading(true);
-            fetchProduct(confLink, productId);
-          }}
-        >
-          إعادة المحاولة
-        </button>
-      </div>
-    );
 
-  if (!product) return <p></p>;
+
+
+    if (!product) return <p></p>;
 
   return (
     <div>

@@ -154,13 +154,13 @@ function capitalizeFirstLetter(str) {
 // دالة JSX مخصصة لعرض اسم المنتج بشكل مقسم وملون (نفس منطق Products_home)
 const renderSpecialLCarnitineName = () => (
   <div style={{ lineHeight: 1.1 }}>
-    <div style={{  letterSpacing: '1px' }}>
+    <div style={{ letterSpacing: '1px' }}>
       L-Carnitine
     </div>
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-      <span style={{  }}>+ Yohimbine</span>
+      <span style={{}}>+ Yohimbine</span>
     </div>
-    <div style={{  marginTop: 2 }}>+ CLEN</div>
+    <div style={{ marginTop: 2 }}>+ CLEN</div>
   </div>
 );
 
@@ -332,8 +332,16 @@ export default function Details_product({ productData: productDataProp, override
                     <span className="price left"><span>Price: </span>{price}$</span>
                   </div>
                   <div>
-                    <span className="vial right"><span>Vial: </span> {vial}</span>
-                    <p className="caliber right">{formatTextWithNumbers(caliber, true)}</p>
+                    <span className="vial right">
+                      <span>
+                        {productData.sec_name === "injections"
+                          ? "Vial: "
+                          : productData.sec_name === "tablets"
+                            ? "Tablets: "
+                            : "Vial: "}
+                      </span>
+                      {vial.replace(/tablets?/gi, "").trim()}
+                    </span>                    <p className="caliber right">{formatTextWithNumbers(caliber, true)}</p>
                   </div>
                 </div>
                 <div className="details_product pb-5">

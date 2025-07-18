@@ -9,3 +9,4 @@ export { default as ContactUs } from "./ContactUs/ContactUs";
 export { default as Products_home } from "./Products_home/Products_home";
 export { default as OurProducts } from "./OurProducts/OurProducts";
 export { default as BestSells } from "./BestSells/BestSells";
+export { default as All_Product } from "./All_Product/All_Product";

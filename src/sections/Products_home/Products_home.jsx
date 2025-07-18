@@ -6,6 +6,7 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Link } from "react-router-dom";
 
 function capitalizeFirstLetter(str) {
   if (!str) return "";
@@ -42,13 +43,13 @@ const productColors = {
 // دالة JSX مخصصة لعرض اسم المنتج بشكل مقسم وملون
 const renderSpecialLCarnitineName = () => (
   <div style={{ lineHeight: 1.1 }}>
-    <div style={{ fontSize: '2rem',  letterSpacing: '1px' }}>
+    <div style={{ fontSize: '1.5rem', letterSpacing: '1px' }}>
       L-Carnitine
     </div>
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
       <span style={{ fontSize: '1.2rem', }}>+ Yohimbine</span>
     </div>
-    <div style={{ fontSize: '1.2rem',  marginTop: 2 }}>+ CLEN</div>
+    <div style={{ fontSize: '1.2rem', marginTop: 2 }}>+ CLEN</div>
   </div>
 );
 
@@ -164,7 +165,7 @@ export default function Products_home() {
           </div>
           <div>
             <span className="vial right">
-              <span>{sectionType === 'INJECTIONS' ? 'Vial:' : 'Tablet:'} </span>{" "}
+              <span>{sectionType === 'INJECTIONS' ? 'Vial:' : 'Tablets:'} </span>{" "}
               {product.vial
                 ? product.vial.replace(/tablets?/gi, "").trim()
                 : ""}
@@ -209,7 +210,7 @@ export default function Products_home() {
                     modules={[Navigation, Pagination, Autoplay]}
                     lazy='true'
                     autoplay={{
-                      delay: 50000,
+                      delay: 5000,
                       disableOnInteraction: false,
                     }}
                     navigation
@@ -229,7 +230,7 @@ export default function Products_home() {
                   </Swiper>
                   {injections.filter(product => product.pname !== 'Carntin+Yohimbine').length > 0 && (
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-                      {/* <button className="seeAll">SEE ALL</button> */}
+                      <Link to='/Products' className="seeAll">SEE ALL</Link>
                     </div>
                   )}
                 </div>
@@ -246,48 +247,41 @@ export default function Products_home() {
 
             <div className="center-section-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ flex: 1, textAlign: 'center' }}>
-                <h2 className="center-float-title">TABLETS</h2>
+                <h2 className="center-float-title mb-4">TABLETS</h2>
               </div>
             </div>
-
             {tablets.filter(product => product.pname !== 'Carntin+Yohimbine').length > 0 ? (
-              <div style={{ position: 'relative' }}>
-                <Swiper
-                  modules={[Navigation, Pagination, Autoplay]}
-                  lazy='true'
-                  autoplay={{
-                    delay: 50000,
-                    disableOnInteraction: false,
-                  }}
-                  navigation={{
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                  }}
-                  loop={true}
-                  spaceBetween={20}
-                  breakpoints={{
-                    320: { slidesPerView: 1 },
-                    640: { slidesPerView: 1 },
-                    1024: { slidesPerView: 1 },
-                  }}
-                  className="products-swiper"
-                >
-                  {tablets.filter(product => product.pname !== 'Carntin+Yohimbine').map((product, idx) => (
-                    <SwiperSlide key={idx}>
-                      {renderProductCard(product, idx, 'TABLETS')}
-                    </SwiperSlide>
-                  ))}
-                  {/* Always render a dummy slide if only one product to force navigation arrows and looping */}
-                  {tablets.filter(product => product.pname !== 'Carntin+Yohimbine').length === 1 && (
-                    <SwiperSlide style={{ opacity: 0, pointerEvents: 'none' }}>
-                      <div />
-                    </SwiperSlide>
+              <>
+                <div style={{ position: 'relative' }}>
+                  <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    lazy='true'
+                    autoplay={{
+                      delay: 5000,
+                      disableOnInteraction: false,
+                    }}
+                    navigation
+                    spaceBetween={20}
+                    breakpoints={{
+                      320: { slidesPerView: 1 },
+                      640: { slidesPerView: 2 },
+                      1024: { slidesPerView: 3 },
+                    }}
+                    className="products-swiper"
+                  >
+                    {tablets.filter(product => product.pname !== 'Carntin+Yohimbine').map((product, idx) => (
+                      <SwiperSlide key={idx}>
+                        {renderProductCard(product, idx, 'TABLETS')}
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  {tablets.filter(product => product.pname !== 'Carntin+Yohimbine').length > 0 && (
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                      <Link to='/Products' className="seeAll">SEE ALL</Link>
+                    </div>
                   )}
-                  {/* Navigation buttons */}
-                  <div className="swiper-button-prev" style={{ color: '#000' }}></div>
-                  <div className="swiper-button-next" style={{ color: '#000' }}></div>
-                </Swiper>
-              </div>
+                </div>
+              </>
             ) : (
               <div className="no-products">
                 <p>No TABLETS products found.</p>

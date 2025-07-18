@@ -20,6 +20,7 @@
   text-align: start;
 }
 .seeAll {
+  text-decoration: none !important;
   display: block;
   padding: 0 24px;
   font-weight: bold;
@@ -103,7 +104,6 @@
   font-family: 'LittleBubble';
   /* color: #25356e !important; */
   text-shadow: 0 0 2px white, 0 0 2px white, 0 0 3px white !important;
-  word-break: break-word;
   white-space: normal;
   max-width: 200px;
   line-height: 1.1;
@@ -181,14 +181,14 @@
   transition: all 0.3s ease;
   border: 1px solid #e9ecef;
   height: max-content;
-  width: 76%;
+  width: 80%;
   backdrop-filter: none !important;
 }
 .Products_home .product-card h1{
   font-size: 30px !important;
 }
 .Products_home .product-card .sec_name{
-  word-break: break-all;
+  word-break: break-word;
   padding-left: 0;
 }
 
