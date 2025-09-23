@@ -143,7 +143,11 @@ export default function Products_home() {
               {(product.pname && product.pname.replace(/-/g, '').replace(/\s+/g, '').toLowerCase() === 'lcarnitine+yohimbine+clen200mg')
                 ? renderSpecialLCarnitineName()
                 : (() => {
-                  let name = (product.pname || '').replace(/-/g, ' ');
+                  let name = product.pname || '';
+                  // Only remove '-' for tablets products
+                  if (product.sec_name && product.sec_name.toLowerCase() === 'tablets') {
+                    name = name.replace(/-/g, ' ');
+                  }
                   // Always remove leading 'L ' if the rest matches target
                   if (name.trim().toUpperCase().replace(/^L\s+/, '') === 'CARNITINE+YOHIMBINE+CLEN') {
                     name = name.replace(/^L\s+/i, '');

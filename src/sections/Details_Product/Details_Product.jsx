@@ -7,113 +7,157 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
-// CircularProgress component for inline use
+// Enhanced CircularProgress component with amazing continuous effects
 const CircularProgress = ({
-  size = 32,
+  size = 80,
   color = "#007bff",
-  thickness = 4,
-  value, // 0-100
-  showValue = false,
+  value = 0,
+  showValue = true,
   className = "",
+  strokeWidth = 8,
   ...props
 }) => {
-  const radius = (size - thickness) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const progress = typeof value === "number"
-    ? Math.min(Math.max(value, 0), 100)
-    : undefined;
-  const offset = progress !== undefined
-    ? circumference - (progress / 100) * circumference
-    : circumference * 0.25;
+  // Responsive size for mobile
+  const isMobile = window.innerWidth <= 768;
+  const responsiveSize = isMobile ? size * 0.6 : size;
+  const responsiveStrokeWidth = isMobile ? strokeWidth * 0.7 : strokeWidth;
+  const [animatedValue, setAnimatedValue] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(true);
 
-  // Animation: fill to value, then empty, repeat
-  const animationName = progress !== undefined ? `circular-fill-${progress}` : undefined;
-  const animationDuration = 2.5; // seconds
+  useEffect(() => {
+    if (typeof value === "number") {
+      // Initial animation to target value
+      const initialTimer = setTimeout(() => {
+        setAnimatedValue(value);
+      }, 1000);
 
-  // Inject keyframes for this value
-  const styleId = `circular-progress-style-${progress}`;
-  if (progress !== undefined && !document.getElementById(styleId)) {
-    const style = document.createElement('style');
-    style.id = styleId;
-    style.innerHTML = `
-      @keyframes ${animationName} {
-        0% { stroke-dashoffset: ${circumference}; }
-        45% { stroke-dashoffset: ${offset}; }
-        55% { stroke-dashoffset: ${offset}; }
-        100% { stroke-dashoffset: ${circumference}; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
+      // Continuous looping animation with proper value display
+      const loopInterval = setInterval(() => {
+        setAnimatedValue(prev => {
+          // Animate between 0 and target value continuously
+          if (prev >= value) {
+            return 0;
+          } else {
+            return prev + (value / 15); // Smooth increment
+          }
+        });
+      }, 100);
+
+      return () => {
+        clearTimeout(initialTimer);
+        clearInterval(loopInterval);
+      };
+    }
+  }, [value]);
+
+  // Create continuous pulsing effect
+  const pulseScale = 1 + 0.1 * Math.sin(Date.now() / 500); // Continuous pulse
+  const glowIntensity = 0.5 + 0.3 * Math.sin(Date.now() / 300); // Continuous glow
 
   return (
     <div
       className={`circular-progress-wrapper ${className}`}
-      style={{ position: "relative", display: "inline-block", width: size, height: size }}
+      style={{
+        position: "relative",
+        display: "inline-block",
+        width: responsiveSize,
+        height: responsiveSize,
+        transform: `scale(${pulseScale})`,
+        transition: "transform 0.3s ease-in-out",
+        filter: `drop-shadow(0 0 ${glowIntensity * 10}px ${color})`,
+      }}
       {...props}
     >
-      <svg
-        width={size}
-        height={size}
-        viewBox={`0 0 ${size} ${size}`}
-        style={{ display: "block" }}
+      <CircularProgressbar
+        value={animatedValue}
+        text={showValue ? `${Math.round(animatedValue)}%` : ""}
+        styles={buildStyles({
+          pathColor: color,
+          textColor: color,
+          trailColor: "rgba(255, 255, 255, 0.1)",
+          strokeLinecap: "round",
+          pathTransitionDuration: 0.5,
+          pathTransition: "ease-in-out",
+        })}
+        strokeWidth={responsiveStrokeWidth}
+      />
+
+      {/* Animated background ring */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          borderRadius: "50%",
+          border: `2px solid ${color}`,
+          opacity: 0.3,
+          animation: "pulse-ring 2s infinite",
+        }}
+      />
+
+      {/* Rotating dots effect */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          animation: "rotate-dots 3s linear infinite",
+        }}
       >
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="#e6e6e6"
-          strokeWidth={thickness}
-        />
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke={color}
-          strokeWidth={thickness}
-          strokeDasharray={circumference}
-          strokeDashoffset={circumference}
-          strokeLinecap="round"
-          style={
-            progress !== undefined
-              ? {
-                animation: `${animationName} ${animationDuration}s cubic-bezier(0.4,0,0.2,1) infinite`,
-              }
-              : {
-                transformOrigin: "center",
-                animation: "circular-rotate 1s linear infinite",
-              }
-          }
-        />
-      </svg>
-      {showValue && progress !== undefined && (
-        <span
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: size,
-            height: size,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: size * 0.3,
-            fontWeight: "bold",
-            color: color,
-            userSelect: "none",
-          }}
-        >
-          {progress}%
-        </span>
-      )}
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              width: isMobile ? "3px" : "4px",
+              height: isMobile ? "3px" : "4px",
+              borderRadius: "50%",
+              backgroundColor: color,
+              top: "50%",
+              left: "50%",
+              transform: `translate(-50%, -50%) rotate(${i * 45}deg) translateY(-${responsiveSize * 0.4}px)`,
+              opacity: 0.7,
+            }}
+          />
+        ))}
+      </div>
+
       <style>
         {`
-          @keyframes circular-rotate {
-            0% { transform: rotate(0deg);}
-            100% { transform: rotate(360deg);}
+          @keyframes pulse-ring {
+            0% {
+              transform: scale(1);
+              opacity: 0.3;
+            }
+            50% {
+              transform: scale(1.1);
+              opacity: 0.1;
+            }
+            100% {
+              transform: scale(1);
+              opacity: 0.3;
+            }
+          }
+          
+          @keyframes rotate-dots {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+          
+          .circular-progress-wrapper:hover {
+            transform: scale(1.05) !important;
+            filter: drop-shadow(0 0 15px ${color}) !important;
           }
         `}
       </style>
@@ -322,7 +366,11 @@ export default function Details_product({ productData: productDataProp, override
                       {(pname && pname.replace(/-/g, '').replace(/\s+/g, '').toLowerCase() === 'lcarnitine+yohimbine+clen200mg')
                         ? renderSpecialLCarnitineName()
                         : (() => {
-                          const name = pname.replace(/-/g, " ");
+                          let name = pname || '';
+                          // Only remove '-' for tablets products
+                          if (productData.sec_name && productData.sec_name.toLowerCase() === 'tablets') {
+                            name = name.replace(/-/g, " ");
+                          }
                           const match = name.match(/^[^\d]*/);
                           return match ? match[0].trim().toUpperCase() : name.toUpperCase();
                         })()
@@ -415,31 +463,61 @@ export default function Details_product({ productData: productDataProp, override
                       {strength && (
                         <li className="product-attribute-item">
                           <strong>Strength:</strong>
-                          <CircularProgress value={parseInt(strength, 10)} showValue size={48} color="#007bff" />
+                          <CircularProgress
+                            value={parseInt(strength, 10)}
+                            showValue={true}
+                            size={80}
+                            color="#007bff"
+                            strokeWidth={8}
+                          />
                         </li>
                       )}
                       {side_effects && (
                         <li className="product-attribute-item">
                           <strong>Side Effects:</strong>
-                          <CircularProgress value={parseInt(side_effects, 10)} showValue size={48} color="#dc3545" />
+                          <CircularProgress
+                            value={parseInt(side_effects, 10)}
+                            showValue={true}
+                            size={80}
+                            color="#dc3545"
+                            strokeWidth={8}
+                          />
                         </li>
                       )}
                       {muscle_gain && (
                         <li className="product-attribute-item">
                           <strong>Muscle Gain:</strong>
-                          <CircularProgress value={parseInt(muscle_gain, 10)} showValue size={48} color="#28a745" />
+                          <CircularProgress
+                            value={parseInt(muscle_gain, 10)}
+                            showValue={true}
+                            size={80}
+                            color="#28a745"
+                            strokeWidth={8}
+                          />
                         </li>
                       )}
                       {keep_gains && (
                         <li className="product-attribute-item">
                           <strong>Keep Gains:</strong>
-                          <CircularProgress value={parseInt(keep_gains, 10)} showValue size={48} color="#ffc107" />
+                          <CircularProgress
+                            value={parseInt(keep_gains, 10)}
+                            showValue={true}
+                            size={80}
+                            color="#ffc107"
+                            strokeWidth={8}
+                          />
                         </li>
                       )}
                       {fat_water && (
                         <li className="product-attribute-item">
                           <strong>Fat/Water:</strong>
-                          <CircularProgress value={parseInt(fat_water, 10)} showValue size={48} color="#17a2b8" />
+                          <CircularProgress
+                            value={parseInt(fat_water, 10)}
+                            showValue={true}
+                            size={80}
+                            color="#17a2b8"
+                            strokeWidth={8}
+                          />
                         </li>
                       )}
                     </ul>
