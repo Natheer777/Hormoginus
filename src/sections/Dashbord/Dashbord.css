@@ -49,7 +49,7 @@
   border-bottom: none;
 }
 
-.logout {
+.dash .logout {
   background-color: orangered !important;
 }
 
@@ -100,9 +100,11 @@
   inset: 0;
   background: rgba(37, 99, 235, 0.08);
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* prevent clipping when modal is taller than viewport */
   justify-content: center;
   z-index: 1000;
+  overflow-y: auto; /* let the overlay scroll if needed */
+  padding: 24px; /* safe space around the modal */
 }
 
 .dash .dashboard-modal {
@@ -113,8 +115,26 @@
   min-width: 320px;
   max-width: 860px;
   width: 92vw;
+  /* Fallback */
   max-height: 90vh;
   overflow-y: auto;
+}
+
+/* Use dynamic viewport height on supported browsers to avoid mobile URL bar issues */
+@supports (height: 100dvh) {
+  .dash .dashboard-modal {
+    max-height: calc(100dvh - 64px);
+  }
+}
+@supports (height: 100svh) {
+  .dash .dashboard-modal {
+    max-height: calc(100svh - 64px);
+  }
+}
+@supports (height: 100lvh) {
+  .dash .dashboard-modal {
+    max-height: calc(100lvh - 64px);
+  }
 }
 
 .dash .dashboard-modal input,
@@ -127,6 +147,19 @@
   font-size: 1rem;
   background: #f8fafc;
   transition: border 0.2s;
+}
+
+/* Better form grouping and label clarity (dash only) */
+.dash .form-group { margin-bottom: 6px; }
+.dash .form-label {
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+.dash .dashboard-modal input:disabled,
+.dash .dashboard-modal textarea:disabled {
+  background: #f1f5f9;
+  color: #6b7280;
 }
 
 .dash .dashboard-modal input:focus,
@@ -152,7 +185,7 @@
 }
 
 @media (min-width: 640px) {
-  .form-grid {
+  .dash .form-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -269,6 +302,10 @@
   padding: 12px 16px 0 16px;
 }
 
+/* Tighter title/price spacing for cleaner cards */
+.dash .product-card-title { margin-bottom: 4px; }
+.dash .product-card-price { margin-bottom: 10px; }
+
 .dash .product-card-title {
   font-weight: 600;
   color: #0f172a;
@@ -281,7 +318,7 @@
 }
 
 .dash .product-card-subtitle {
-  color: #475569;
+  color: white;
   /* slate-600 */
   font-size: 0.9rem;
   margin-bottom: 8px;
@@ -452,7 +489,9 @@
   flex: 1 1 280px;
   min-width: 220px;
 }
-
+.dash .Headerr .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
+  position: inherit;
+}
 .dash .toolbar-right {
   display: flex;
   gap: 8px;
@@ -464,6 +503,25 @@
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   background: #fff;
+}
+
+/* Subtle hover for inputs/buttons inside modal */
+.dash .dashboard-modal input:hover,
+.dash .dashboard-modal textarea:hover {
+  border-color: #d1d5db;
+}
+.dash .dashboard-btn:active {
+  transform: translateY(0.5px);
+}
+
+/* Make modal a bit more breathing on small screens without changing your max width */
+@media (max-width: 420px) {
+  .dash .dashboard-modal {
+    padding: 20px;
+  }
+  .dash .dashboard-modal-bg {
+    padding: 12px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -481,7 +539,7 @@
 
 
 
-.update-info-section {
+.dash .update-info-section {
   background: linear-gradient(145deg, #ffffff, #f8fafc);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -495,7 +553,7 @@
   overflow: hidden;
 }
 
-.update-info-section::before {
+.dash .update-info-section::before {
   content: '';
   position: absolute;
   top: 0;
@@ -521,7 +579,7 @@
   }
 }
 
-.update-info-section h3 {
+.dash .update-info-section h3 {
   margin: 0 0 24px 0;
   font-size: 1.5rem;
   font-weight: 700;
@@ -531,7 +589,7 @@
   padding-bottom: 12px;
 }
 
-.update-info-section h3::after {
+.dash .update-info-section h3::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -543,18 +601,18 @@
   border-radius: 3px;
 }
 
-.update-info-section form {
+.dash .update-info-section form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.update-info-section .form-group {
+.dash .update-info-section .form-group {
   position: relative;
   margin-bottom: 8px;
 }
 
-.update-info-section label {
+.dash .update-info-section label {
   display: block;
   font-weight: 500;
   margin-bottom: 8px;
@@ -563,8 +621,8 @@
   transition: all 0.3s ease;
 }
 
-.update-info-section input[type="email"],
-.update-info-section input[type="text"] {
+.dash .update-info-section input[type="email"],
+.dash .update-info-section input[type="text"] {
   width: 100%;
   padding: 12px 16px;
   border: 2px solid #e2e8f0;
@@ -575,19 +633,19 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.update-info-section input:focus {
+.dash .update-info-section input:focus {
   border-color: var(--color-blue2);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
   outline: none;
   transform: translateY(-1px);
 }
 
-.update-info-section input::placeholder {
+.dash .update-info-section input::placeholder {
   color: #9ca3af;
   font-size: 0.95rem;
 }
 
-.update-info-section button[type="submit"] {
+.dash .update-info-section button[type="submit"] {
   background: linear-gradient(135deg, var(--color-blue2), var(--color-blue2));
   color: white;
   border: none;
@@ -603,23 +661,23 @@
   overflow: hidden;
 }
 
-.update-info-section button[type="submit"]:hover:not(:disabled) {
+.dash .update-info-section button[type="submit"]:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   background: linear-gradient(135deg, var(--color-blue2), var(--color-blue2));
 }
 
-.update-info-section button[type="submit"]:active:not(:disabled) {
+.dash .update-info-section button[type="submit"]:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.update-info-section button[type="submit"]:disabled {
+.dash .update-info-section button[type="submit"]:disabled {
   background: #9ca3af;
   cursor: not-allowed;
   opacity: 0.8;
 }
 
-.update-info-section p {
+.dash .update-info-section p {
   margin: 16px 0 0;
   padding: 12px 16px;
   border-radius: 8px;
@@ -632,8 +690,8 @@
 }
 
 /* Error message style */
-.update-info-section p[role="alert"],
-.update-info-section .error {
+.dash .update-info-section p[role="alert"],
+.dash .update-info-section .error {
   background-color: #fef2f2;
   color: #b91c1c;
   border: 1px solid #fecaca;
@@ -652,7 +710,7 @@
   }
 }
 
-.update-info-section button[type="submit"]:disabled::after {
+.dash .update-info-section button[type="submit"]:disabled::after {
   content: '';
   position: absolute;
   top: 0;
@@ -674,7 +732,7 @@
   }
 }
 
-.update-info-section h1 {
+.dash .update-info-section h1 {
   font-family: 'NunitoBlack';
   text-align: center;
   margin-bottom: 20px;

@@ -6,7 +6,6 @@ import {
   updateProduct,
   deleteProduct,
   logout,
-  updateUserInfo,
 } from "../../api";
 import ShinyText from "../../components/ShinyText/ShinyText";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -22,14 +21,15 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
   const [formError, setFormError] = useState("");
 
   function handleChange(e) {
-    const { name } = e.target;
+    const { name, files } = e.target;
     let { value } = e.target;
-    // Enforce alphanumeric only and max length 5 for code fields
-    if (["code", "code2", "code3", "code4"].includes(name)) {
-      value = String(value || "")
-        .replace(/[^a-z0-9]/gi, "")
-        .slice(0, 5);
+    // Handle multi-file inputs for images/videos
+    if (name === "images" || name === "videos") {
+      const list = files ? Array.from(files) : [];
+      setForm((f) => ({ ...f, [name]: list }));
+      return;
     }
+    // Legacy single-file support removed (we now use images/videos arrays)
     setForm((f) => ({ ...f, [name]: value }));
   }
 
@@ -39,17 +39,6 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
         className="dashboard-modal"
         onSubmit={(e) => {
           e.preventDefault();
-          // Validate codes: each must be exactly 5 alphanumeric characters
-          const codes = [form.code, form.code2, form.code3, form.code4];
-          const allValid = codes.every((c) =>
-            /^[A-Za-z0-9]{5}$/.test(String(c || ""))
-          );
-          if (!allValid) {
-            setFormError(
-              "Codes (code, code2, code3, code4) must be exactly 5 characters (letters or numbers)."
-            );
-            return;
-          }
           setFormError("");
           onSave(form);
         }}
@@ -70,62 +59,28 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="name" className="form-label">Product Name Web</label>
-            <input
-              id="name"
-              name="name"
-              placeholder="Enter product name in local language"
-              className="w-full mb-2 p-2 border rounded"
-              value={form.name || ""}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          {/* Removed 'name' field per requested payload */}
           <div className="form-group span-2">
-            <label htmlFor="product_overview" className="form-label">Product Overview</label>
+            <label htmlFor="description" className="form-label">Description</label>
             <textarea
-              id="product_overview"
-              name="product_overview"
+              id="description"
+              name="description"
               placeholder="Enter general product description..."
               className="w-full mb-2 p-2 border rounded"
-              value={form.product_overview || ""}
+              value={form.description || ""}
               onChange={handleChange}
               required
             />
           </div>
+          {/* Scientific Name removed per request */}
           <div className="form-group span-2">
-            <label htmlFor="uses" className="form-label">Product Uses</label>
+            <label htmlFor="how_to_use" className="form-label">How To Use</label>
             <textarea
-              id="uses"
-              name="uses"
-              placeholder="Describe the uses of the product..."
-              className="w-full mb-2 p-2 border rounded"
-              value={form.uses || ""}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group span-2">
-            <label htmlFor="potential_harms" className="form-label">Potential Harms</label>
-            <textarea
-              id="potential_harms"
-              name="potential_harms"
-              placeholder="List any potential harms or side effects..."
-              className="w-full mb-2 p-2 border rounded"
-              value={form.potential_harms || ""}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group span-2">
-            <label htmlFor="method_of_use" className="form-label">Method of Use</label>
-            <textarea
-              id="method_of_use"
-              name="method_of_use"
+              id="how_to_use"
+              name="how_to_use"
               placeholder="Explain how to use the product..."
               className="w-full mb-2 p-2 border rounded"
-              value={form.method_of_use || ""}
+              value={form.how_to_use || ""}
               onChange={handleChange}
               required
             />
@@ -149,74 +104,10 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
             <input
               id="qr_code"
               name="qr_code"
-              placeholder="Enter QR code"
+              placeholder="Enter QR code URL"
               className="w-full mb-2 p-2 border rounded"
               value={form.qr_code || ""}
               onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="code" className="form-label">Code 1</label>
-            <input
-              id="code"
-              name="code"
-              placeholder="Enter 5-character code"
-              className="w-full mb-2 p-2 border rounded"
-              value={form.code || ""}
-              onChange={handleChange}
-              maxLength={5}
-              pattern="[A-Za-z0-9]{5}"
-              inputMode="text"
-              title="Enter exactly 5 characters (letters or numbers)"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="code2" className="form-label">Code 2</label>
-            <input
-              id="code2"
-              name="code2"
-              placeholder="Enter 5-character code"
-              className="w-full mb-2 p-2 border rounded"
-              value={form.code2 || ""}
-              onChange={handleChange}
-              maxLength={5}
-              pattern="[A-Za-z0-9]{5}"
-              inputMode="text"
-              title="Enter exactly 5 characters (letters or numbers)"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="code3" className="form-label">Code 3</label>
-            <input
-              id="code3"
-              name="code3"
-              placeholder="Enter 5-character code"
-              className="w-full mb-2 p-2 border rounded"
-              value={form.code3 || ""}
-              onChange={handleChange}
-              maxLength={5}
-              pattern="[A-Za-z0-9]{5}"
-              inputMode="text"
-              title="Enter exactly 5 characters (letters or numbers)"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="code4" className="form-label">Code 4</label>
-            <input
-              id="code4"
-              name="code4"
-              placeholder="Enter 5-character code"
-              className="w-full mb-2 p-2 border rounded"
-              value={form.code4 || ""}
-              onChange={handleChange}
-              maxLength={5}
-              pattern="[A-Za-z0-9]{5}"
-              inputMode="text"
-              title="Enter exactly 5 characters (letters or numbers)"
               required
             />
           </div>
@@ -257,49 +148,98 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="vid_url" className="form-label">Video URL</label>
+            <label htmlFor="videos" className="form-label">Product Videos</label>
             <input
-              id="vid_url"
-              name="vid_url"
-              placeholder="Enter video URL"
+              id="videos"
+              name="videos"
+              type="file"
+              accept="video/*"
+              multiple
               className="w-full mb-2 p-2 border rounded"
-              value={form.vid_url || ""}
+              onChange={handleChange}
+              required={!initial?.p_id}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="images" className="form-label">Product Images</label>
+            <input
+              id="images"
+              name="images"
+              type="file"
+              accept="image/*"
+              multiple
+              className="w-full mb-2 p-2 border rounded"
+              onChange={handleChange}
+              required={!initial?.p_id}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="strength" className="form-label">Strength (0-100)</label>
+            <input
+              id="strength"
+              name="strength"
+              min="0"
+              max="100"
+              placeholder="0-100"
+              className="w-full mb-2 p-2 border rounded"
+              value={form.strength || ""}
               onChange={handleChange}
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="img_url" className="form-label">First Image URL</label>
+            <label htmlFor="side_effects" className="form-label">Side Effects (0-100)</label>
             <input
-              id="img_url"
-              name="img_url"
-              placeholder="Enter primary image URL"
+              id="side_effects"
+              name="side_effects"
+              min="0"
+              max="100"
+              placeholder="0-100"
               className="w-full mb-2 p-2 border rounded"
-              value={form.img_url || ""}
+              value={form.side_effects || ""}
               onChange={handleChange}
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="img_url2" className="form-label">Secondary Image URL</label>
+            <label htmlFor="muscle_gain" className="form-label">Muscle Gain (0-100)</label>
             <input
-              id="img_url2"
-              name="img_url2"
-              placeholder="Enter secondary image URL"
+              id="muscle_gain"
+              name="muscle_gain"
+              min="0"
+              max="100"
+              placeholder="0-100"
               className="w-full mb-2 p-2 border rounded"
-              value={form.img_url2 || ""}
+              value={form.muscle_gain || ""}
               onChange={handleChange}
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="img_url3" className="form-label">Third Image URL</label>
+            <label htmlFor="keep_gains" className="form-label">Keep Gains (0-100)</label>
             <input
-              id="img_url3"
-              name="img_url3"
-              placeholder="Enter third image URL"
+              id="keep_gains"
+              name="keep_gains"
+              min="0"
+              max="100"
+              placeholder="0-100"
               className="w-full mb-2 p-2 border rounded"
-              value={form.img_url3 || ""}
+              value={form.keep_gains || ""}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="fat_water" className="form-label">Fat/Water (0-100)</label>
+            <input
+              id="fat_water"
+              name="fat_water"
+              min="0"
+              max="100"
+              placeholder="0-100"
+              className="w-full mb-2 p-2 border rounded"
+              value={form.fat_water || ""}
               onChange={handleChange}
               required
             />
@@ -335,6 +275,8 @@ export default function Dashboard(props) {
   const [showForm, setShowForm] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
   const [search, setSearch] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSection = (
@@ -372,6 +314,11 @@ export default function Dashboard(props) {
     onSuccess: () => {
       queryClient.invalidateQueries(["products"]);
       setDeleteId(null);
+      setDeleteError(null);
+    },
+    onError: (err) => {
+      const msg = err?.message || "Failed to delete product";
+      setDeleteError(msg);
     },
   });
 
@@ -387,8 +334,9 @@ export default function Dashboard(props) {
   const filteredProducts = Array.isArray(products)
     ? products
       .filter((p) => {
-        // Section filter using sec_name
-        const sec = String(p.sec_name || "").toLowerCase();
+        // Section filter using sec_name, normalize "injections" -> "injectables"
+        const raw = String(p.sec_name || "").toLowerCase();
+        const sec = raw === "injections" ? "injectables" : raw;
         return sec === String(activeSection).toLowerCase();
       })
       .filter((p) => {
@@ -411,9 +359,11 @@ export default function Dashboard(props) {
 
   const countFor = (sec) =>
     Array.isArray(products)
-      ? products.filter(
-        (p) => String(p.sec_name || "").toLowerCase() === String(sec)
-      ).length
+      ? products.filter((p) => {
+        const raw = String(p.sec_name || "").toLowerCase();
+        const norm = raw === "injections" ? "injectables" : raw;
+        return norm === String(sec);
+      }).length
       : 0;
 
   function setSection(sec) {
@@ -422,9 +372,9 @@ export default function Dashboard(props) {
     setSearchParams({ section: norm });
   }
 
-  const userId = props.userId;
-  const email = props.email;
-  const phone = props.phone;
+  // Fixed mapping per request: Injectables -> 1, Tablets -> 2
+  const secIdForActiveTab = activeSection === "injectables" ? 1 : 2;
+
 
   return (
     <div className="dash">
@@ -575,7 +525,13 @@ export default function Dashboard(props) {
                               </button>
                               <button
                                 className="dashboard-btn delete"
-                                onClick={() => setDeleteId(prod.p_id)}
+                                onClick={() => {
+                                  setDeleteError(null);
+                                  setDeleteTarget(prod);
+                                  const raw = prod.p_id ?? prod.id ?? prod.product_id ?? prod.pid;
+                                  const cleaned = typeof raw === 'string' ? raw.trim() : raw;
+                                  setDeleteId(cleaned);
+                                }}
                               >
                                 Delete
                               </button>
@@ -596,41 +552,24 @@ export default function Dashboard(props) {
             <ProductForm
               initial={{
                 pname: "",
-                name: "",
-                product_overview: "",
-                uses: "",
-                potential_harms: "",
-                method_of_use: "",
+                description: "",
+                how_to_use: "",
                 price: "",
                 qr_code: "",
-                code: "",
-                code2: "",
-                code3: "",
-                code4: "",
                 warnings: "",
                 vial: "",
                 caliber: "",
-                // Auto-fill sec_id based on active section: Injectables=3, Tablets=4
-                sec_id:
-                  activeSection === "injectables"
-                    ? 3
-                    : activeSection === "tablets"
-                      ? 4
-                      : "",
-                vid_url: "",
-                img_url: "",
-                img_url2: "",
-                img_url3: "",
+                images: [],
+                videos: [],
+                strength: "",
+                side_effects: "",
+                muscle_gain: "",
+                keep_gains: "",
+                fat_water: "",
               }}
               onSave={(data) => {
-                // Enforce sec_id mapping on submit as well
-                const mappedSecId =
-                  activeSection === "injectables"
-                    ? 3
-                    : activeSection === "tablets"
-                      ? 4
-                      : data.sec_id;
-                createMutation.mutate({ ...data, sec_id: mappedSecId });
+                const sec_id = secIdForActiveTab;
+                createMutation.mutate({ ...data, sec_id });
               }}
               onClose={() => setShowForm(false)}
               isLoading={createMutation.isLoading}
@@ -641,16 +580,11 @@ export default function Dashboard(props) {
             <ProductForm
               initial={editProduct}
               onSave={(data) => {
-                const mappedSecId =
-                  activeSection === "injectables"
-                    ? 3
-                    : activeSection === "tablets"
-                      ? 4
-                      : data.sec_id;
+                const sec_id = secIdForActiveTab;
                 updateMutation.mutate({
                   ...data,
                   p_id: editProduct.p_id,
-                  sec_id: mappedSecId,
+                  sec_id,
                 });
               }}
               onClose={() => setEditProduct(null)}
@@ -664,10 +598,38 @@ export default function Dashboard(props) {
                 <p className="mb-4">
                   Are you sure you want to delete this product?
                 </p>
+                {deleteTarget && (
+                  <div className="mb-2" style={{ color: '#475569' }}>
+                    <div><strong>ID:</strong> {String(deleteId)}</div>
+                    {deleteTarget.name && (
+                      <div><strong>Name:</strong> {deleteTarget.name}</div>
+                    )}
+                    {deleteTarget.pname && (
+                      <div><strong>QR Name:</strong> {deleteTarget.pname}</div>
+                    )}
+                  </div>
+                )}
+                {deleteError && (
+                  <div className="text-red-500 mb-3" role="alert">
+                    {String(deleteError)}
+                  </div>
+                )}
                 <div className="flex gap-2">
                   <button
                     className="dashboard-btn delete"
-                    onClick={() => deleteMutation.mutate(deleteId)}
+                    onClick={() => {
+                      const payload = {
+                        // include all possible id keys found on the product
+                        p_id: (deleteTarget?.p_id ?? deleteId) ?? undefined,
+                        id: deleteTarget?.id ?? undefined,
+                        product_id: deleteTarget?.product_id ?? undefined,
+                        pid: deleteTarget?.pid ?? undefined,
+                        sec_id: deleteTarget?.sec_id ?? secIdForActiveTab,
+                        sec_name: deleteTarget?.sec_name ?? activeSection,
+                      };
+                      console.debug('[Delete] payload', payload);
+                      deleteMutation.mutate(payload);
+                    }}
                     disabled={deleteMutation.isLoading}
                   >
                     {deleteMutation.isLoading ? "Deleting..." : "Delete"}
@@ -675,7 +637,7 @@ export default function Dashboard(props) {
                   <button
                     className="dashboard-btn"
                     style={{ backgroundColor: "#e5e7eb", color: "#2563eb" }}
-                    onClick={() => setDeleteId(null)}
+                    onClick={() => { setDeleteId(null); setDeleteTarget(null); setDeleteError(null); }}
                   >
                     Cancel
                   </button>
