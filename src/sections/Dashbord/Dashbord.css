@@ -229,7 +229,9 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   background: #f1f5f9;
 }
-
+.dash .swiper-slide ,.swiper-slide-next{
+  line-height: 1 !important;
+}
 .dash .product-thumb.placeholder {
   display: inline-flex;
   align-items: center;

@@ -21,13 +21,35 @@ export async function logout(id, token) {
 export async function getAllProducts() {
   const res = await fetch(`${BASE_URL}/get_full_info.php`);
   const result = await res.json();
-  // إذا كان هناك مفتاح data وهو مصفوفة، أرجعه مباشرة
+  // Helper to normalize a single product from the API, ensuring numbers and defaulting nulls
+  const normalizeProductFromApi = (p) => {
+    if (!p || typeof p !== 'object') return p;
+    const copy = { ...p };
+    const toNumberOr = (val, fallback = 0) => {
+      if (val === '' || val === null || val === undefined) return fallback;
+      const n = Number(val);
+      return isNaN(n) ? fallback : n;
+    };
+    // Coerce id and price
+    if ('p_id' in copy) copy.p_id = toNumberOr(copy.p_id, copy.p_id);
+    if ('id' in copy && (copy.p_id == null)) copy.p_id = toNumberOr(copy.id, copy.id);
+    copy.price = toNumberOr(copy.price, 0);
+    // Metrics 0-100: default to 0 if null/empty
+    copy.strength = toNumberOr(copy.strength, 0);
+    copy.side_effects = toNumberOr(copy.side_effects, 0);
+    copy.muscle_gain = toNumberOr(copy.muscle_gain, 0);
+    copy.keep_gains = toNumberOr(copy.keep_gains, 0);
+    copy.fat_water = toNumberOr(copy.fat_water, 0);
+    return copy;
+  };
+
+  // إذا كان هناك مفتاح data وهو مصفوفة، قم بتطبيع العناصر وأرجعها
   if (result && Array.isArray(result.data)) {
-    return result.data;
+    return result.data.map(normalizeProductFromApi);
   }
   // fallback: إذا كان data كائن واحد فقط
   if (result && typeof result.data === "object" && result.data !== null) {
-    return [result.data];
+    return [normalizeProductFromApi(result.data)];
   }
   return [];
 }
@@ -228,6 +250,8 @@ export async function deleteProduct(arg1, maybeSecId) {
   }
 
   const formData = new FormData();
+  // Required by backend to specify delete operation
+  formData.append("action", "delete");
   if (p_id != null) {
     formData.append("p_id", String(p_id));
     // Add common alternative keys for compatibility with backend variations
@@ -256,6 +280,7 @@ export async function deleteProduct(arg1, maybeSecId) {
   if (!data || data.status !== "success") {
     // As a final fallback, attempt JSON payload version (some backends accept JSON only)
     const jsonPayload = {
+      action: "delete",
       p_id: p_id != null ? Number(p_id) : undefined,
       id: p_id != null ? Number(p_id) : undefined,
       product_id: p_id != null ? Number(p_id) : undefined,
@@ -281,6 +306,7 @@ export async function deleteProduct(arg1, maybeSecId) {
   if (!data || data.status !== "success") {
     // As a final fallback, try GET with query string
     const qs = new URLSearchParams();
+    qs.set('action', 'delete');
     if (p_id != null) {
       qs.set('p_id', String(p_id));
       qs.set('id', String(p_id));
@@ -295,7 +321,7 @@ export async function deleteProduct(arg1, maybeSecId) {
       console.debug('[Delete API][GET]', `${url}?${qs.toString()}`, { response: json });
       return json;
     };
-    data = await getTry(`${BASE_URL}DeleteProduct.php`).catch(() => null);
+    data = await getTry(`${BASE_URL}dashboard/DeleteProduct.php`).catch(() => null);
     if (!data || data.status !== 'success') {
       data = await getTry(`${BASE_URL}DeleteProduct.php`).catch(() => null);
     }

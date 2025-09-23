@@ -29,6 +29,20 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
       setForm((f) => ({ ...f, [name]: list }));
       return;
     }
+    // Normalize numeric fields to numbers (or empty string if cleared)
+    const numericFields = [
+      "price",
+      "strength",
+      "side_effects",
+      "muscle_gain",
+      "keep_gains",
+      "fat_water",
+    ];
+    if (numericFields.includes(name)) {
+      const normalized = value === "" ? "" : Number(value);
+      setForm((f) => ({ ...f, [name]: normalized }));
+      return;
+    }
     // Legacy single-file support removed (we now use images/videos arrays)
     setForm((f) => ({ ...f, [name]: value }));
   }
@@ -94,7 +108,7 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
               step="0.01"
               placeholder="0.00"
               className="w-full mb-2 p-2 border rounded"
-              value={form.price || ""}
+              value={form.price ?? ""}
               onChange={handleChange}
               required
             />
@@ -179,11 +193,12 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
             <input
               id="strength"
               name="strength"
+              type="text"
               min="0"
               max="100"
               placeholder="0-100"
               className="w-full mb-2 p-2 border rounded"
-              value={form.strength || ""}
+              value={form.strength ?? ""}
               onChange={handleChange}
               required
             />
@@ -193,11 +208,12 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
             <input
               id="side_effects"
               name="side_effects"
+              type="text"
               min="0"
               max="100"
               placeholder="0-100"
               className="w-full mb-2 p-2 border rounded"
-              value={form.side_effects || ""}
+              value={form.side_effects ?? ""}
               onChange={handleChange}
               required
             />
@@ -207,11 +223,12 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
             <input
               id="muscle_gain"
               name="muscle_gain"
+              type="text"
               min="0"
               max="100"
               placeholder="0-100"
               className="w-full mb-2 p-2 border rounded"
-              value={form.muscle_gain || ""}
+              value={form.muscle_gain ?? ""}
               onChange={handleChange}
               required
             />
@@ -221,11 +238,12 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
             <input
               id="keep_gains"
               name="keep_gains"
+              type="text"
               min="0"
               max="100"
               placeholder="0-100"
               className="w-full mb-2 p-2 border rounded"
-              value={form.keep_gains || ""}
+              value={form.keep_gains ?? ""}
               onChange={handleChange}
               required
             />
@@ -235,11 +253,12 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
             <input
               id="fat_water"
               name="fat_water"
+              type="text"
               min="0"
               max="100"
               placeholder="0-100"
               className="w-full mb-2 p-2 border rounded"
-              value={form.fat_water || ""}
+              value={form.fat_water ?? ""}
               onChange={handleChange}
               required
             />
@@ -375,6 +394,74 @@ export default function Dashboard(props) {
   // Fixed mapping per request: Injectables -> 1, Tablets -> 2
   const secIdForActiveTab = activeSection === "injectables" ? 1 : 2;
 
+  // Normalize payload to ensure numeric fields are numbers and not null
+ function normalizeProductPayload(data, sec_id, maybePid) {
+  const numericKeys = [
+    "price",
+    "strength", 
+    "side_effects",
+    "muscle_gain",
+    "keep_gains",
+    "fat_water",
+  ];
+  
+  const normalized = { ...data };
+  
+  numericKeys.forEach((key) => {
+    const value = normalized[key];
+    
+    // Only convert to number if value exists and is not empty string
+    if (value !== "" && value !== null && value !== undefined) {
+      const numValue = Number(value);
+      // Only assign if it's a valid number
+      if (!isNaN(numValue)) {
+        normalized[key] = numValue;
+      }
+    }
+    // If value is empty string, keep it as empty string (don't convert to 0)
+    // If value is null/undefined, keep as is (will be handled by backend)
+  });
+  
+  if (typeof sec_id !== "undefined") normalized.sec_id = sec_id;
+  if (typeof maybePid !== "undefined") normalized.p_id = maybePid;
+  
+  return normalized;
+}
+
+// Alternative approach - more explicit handling
+function normalizeProductPayloadAlternative(data, sec_id, maybePid) {
+  const numericKeys = [
+    "price",
+    "strength", 
+    "side_effects", 
+    "muscle_gain",
+    "keep_gains",
+    "fat_water",
+  ];
+  
+  const normalized = { ...data };
+  
+  numericKeys.forEach((key) => {
+    const value = normalized[key];
+    
+    if (typeof value === 'string' && value.trim() !== '') {
+      // Convert non-empty strings to numbers
+      const numValue = Number(value);
+      if (!isNaN(numValue)) {
+        normalized[key] = numValue;
+      }
+    } else if (value === '' || value === null || value === undefined) {
+      // Keep empty strings as empty strings for controlled inputs
+      // Backend should handle empty strings appropriately
+      normalized[key] = '';
+    }
+  });
+  
+  if (typeof sec_id !== "undefined") normalized.sec_id = sec_id;
+  if (typeof maybePid !== "undefined") normalized.p_id = maybePid;
+  
+  return normalized;
+}
 
   return (
     <div className="dash">
@@ -530,7 +617,8 @@ export default function Dashboard(props) {
                                   setDeleteTarget(prod);
                                   const raw = prod.p_id ?? prod.id ?? prod.product_id ?? prod.pid;
                                   const cleaned = typeof raw === 'string' ? raw.trim() : raw;
-                                  setDeleteId(cleaned);
+                                  const numeric = cleaned != null && !isNaN(Number(cleaned)) ? Number(cleaned) : cleaned;
+                                  setDeleteId(numeric);
                                 }}
                               >
                                 Delete
@@ -569,7 +657,8 @@ export default function Dashboard(props) {
               }}
               onSave={(data) => {
                 const sec_id = secIdForActiveTab;
-                createMutation.mutate({ ...data, sec_id });
+                const payload = normalizeProductPayload(data, sec_id);
+                createMutation.mutate(payload);
               }}
               onClose={() => setShowForm(false)}
               isLoading={createMutation.isLoading}
@@ -581,11 +670,8 @@ export default function Dashboard(props) {
               initial={editProduct}
               onSave={(data) => {
                 const sec_id = secIdForActiveTab;
-                updateMutation.mutate({
-                  ...data,
-                  p_id: editProduct.p_id,
-                  sec_id,
-                });
+                const payload = normalizeProductPayload(data, sec_id, editProduct.p_id);
+                updateMutation.mutate(payload);
               }}
               onClose={() => setEditProduct(null)}
               isLoading={updateMutation.isLoading}
@@ -598,17 +684,7 @@ export default function Dashboard(props) {
                 <p className="mb-4">
                   Are you sure you want to delete this product?
                 </p>
-                {deleteTarget && (
-                  <div className="mb-2" style={{ color: '#475569' }}>
-                    <div><strong>ID:</strong> {String(deleteId)}</div>
-                    {deleteTarget.name && (
-                      <div><strong>Name:</strong> {deleteTarget.name}</div>
-                    )}
-                    {deleteTarget.pname && (
-                      <div><strong>QR Name:</strong> {deleteTarget.pname}</div>
-                    )}
-                  </div>
-                )}
+                
                 {deleteError && (
                   <div className="text-red-500 mb-3" role="alert">
                     {String(deleteError)}
@@ -618,14 +694,11 @@ export default function Dashboard(props) {
                   <button
                     className="dashboard-btn delete"
                     onClick={() => {
+                      const pid = (deleteTarget?.p_id ?? deleteId);
+                      const p_id = pid != null && !isNaN(Number(pid)) ? Number(pid) : pid;
                       const payload = {
-                        // include all possible id keys found on the product
-                        p_id: (deleteTarget?.p_id ?? deleteId) ?? undefined,
-                        id: deleteTarget?.id ?? undefined,
-                        product_id: deleteTarget?.product_id ?? undefined,
-                        pid: deleteTarget?.pid ?? undefined,
+                        p_id,
                         sec_id: deleteTarget?.sec_id ?? secIdForActiveTab,
-                        sec_name: deleteTarget?.sec_name ?? activeSection,
                       };
                       console.debug('[Delete] payload', payload);
                       deleteMutation.mutate(payload);
