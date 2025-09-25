@@ -96,6 +96,11 @@ export async function createProduct({
   fat_water,
 }) {
   const formData = new FormData();
+  const normalizeUrl = (u) => {
+    const s = (u || "").trim();
+    if (!s) return "";
+    return /^https?:\/\//i.test(s) ? s : `https://hormogenius.com/${s.replace(/^\/+/, "")}`;
+  };
   if (pname != null) formData.append("pname", String(pname));
   if (name != null) formData.append("name", String(name));
   if (description != null) formData.append("description", String(description));
@@ -105,7 +110,7 @@ export async function createProduct({
   if (how_to_use != null) formData.append("how_to_use", String(how_to_use));
   // Legacy key for backend compatibility
   if (how_to_use != null) formData.append("method_of_use", String(how_to_use));
-  if (qr_code != null) formData.append("qr_code", String(qr_code));
+  if (qr_code != null) formData.append("qr_code", normalizeUrl(qr_code));
   if (warnings != null) formData.append("warnings", String(warnings));
   if (vial != null) formData.append("vial", String(vial));
   if (caliber != null) formData.append("caliber", String(caliber));
@@ -151,7 +156,9 @@ export async function createProduct({
           ? videos
           : null;
   if (videoFile) {
+    // Append using both possible backend keys
     formData.append("vid_url", videoFile);
+    formData.append("videos", videoFile);
   } else if (vid_url != null) {
     formData.append("vid_url", String(vid_url));
   } else if (Array.isArray(videos) && typeof videos[0] === "string") {
@@ -168,7 +175,9 @@ export async function createProduct({
           ? images
           : null;
   if (imageFile) {
+    // Append using both possible backend keys
     formData.append("img_url", imageFile);
+    formData.append("images", imageFile);
   } else if (img_url != null) {
     formData.append("img_url", String(img_url));
   } else if (Array.isArray(images) && typeof images[0] === "string") {
@@ -215,13 +224,18 @@ export async function updateProduct({
   fat_water,
 }) {
   const formData = new FormData();
+  const normalizeUrl = (u) => {
+    const s = (u || "").trim();
+    if (!s) return "";
+    return /^https?:\/\//i.test(s) ? s : `https://hormogenius.com/${s.replace(/^\/+/, "")}`;
+  };
   if (p_id != null) formData.append("p_id", String(Number(p_id)));
   if (pname != null) formData.append("pname", String(pname));
   if (name != null) formData.append("name", String(name));
   if (description != null) formData.append("description", String(description));
   if (science_name != null) formData.append("science_name", String(science_name));
   if (how_to_use != null) formData.append("how_to_use", String(how_to_use));
-  if (qr_code != null) formData.append("qr_code", String(qr_code));
+  if (qr_code != null) formData.append("qr_code", normalizeUrl(qr_code));
   if (warnings != null) formData.append("warnings", String(warnings));
   if (vial != null) formData.append("vial", String(vial));
   if (caliber != null) formData.append("caliber", String(caliber));
@@ -257,7 +271,9 @@ export async function updateProduct({
           ? videos
           : null;
   if (updVideoFile) {
+    // Append using both possible backend keys
     formData.append("vid_url", updVideoFile);
+    formData.append("videos", updVideoFile);
   } else if (vid_url != null) {
     formData.append("vid_url", String(vid_url));
   } else if (Array.isArray(videos) && typeof videos[0] === "string") {
@@ -273,7 +289,9 @@ export async function updateProduct({
           ? images
           : null;
   if (updImageFile) {
+    // Append using both possible backend keys
     formData.append("img_url", updImageFile);
+    formData.append("images", updImageFile);
   } else if (img_url != null) {
     formData.append("img_url", String(img_url));
   } else if (Array.isArray(images) && typeof images[0] === "string") {

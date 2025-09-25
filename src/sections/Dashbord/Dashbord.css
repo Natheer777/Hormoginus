@@ -11,7 +11,9 @@
   background: linear-gradient(135deg, #e3f0ff 0%, #f8fafc 100%);
   min-height: 100vh;
 }
-
+.dash h1{
+  font-size: 2.2rem;
+}
 /* Dashboard title */
 .dash .dashboard-title {
   color: var(--color-blue2);

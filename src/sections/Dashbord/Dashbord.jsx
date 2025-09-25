@@ -23,30 +23,30 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
   function handleChange(e) {
     const { name, files } = e.target;
     let { value } = e.target;
-    
+
     // Handle multi-file inputs for images/videos
     if (name === "images" || name === "videos") {
       const list = files ? Array.from(files) : [];
       setForm((f) => ({ ...f, [name]: list }));
       return;
     }
-    
+
     // معالجة الحقول الرقمية - إبقاء القيمة كـ string بدلاً من تحويلها فوراً
     const numericFields = [
       "price",
-      "strength", 
+      "strength",
       "side_effects",
       "muscle_gain",
       "keep_gains",
       "fat_water",
     ];
-    
+
     if (numericFields.includes(name)) {
       // إبقاء القيمة كما هي (string) بدلاً من تحويلها لـ Number
       setForm((f) => ({ ...f, [name]: value }));
       return;
     }
-    
+
     setForm((f) => ({ ...f, [name]: value }));
   }
 
@@ -400,7 +400,7 @@ export default function Dashboard() {
     <div className="dash">
       <div className="dashboard-bg min-h-screen p-8">
         <div className="catego">
-          <h1>
+          <h1 className="text-center pt-5 fw-bold">
             <ShinyText text="Dashboard" speed={3} className="shiny-heading" />
           </h1>
         </div>
@@ -432,7 +432,7 @@ export default function Dashboard() {
                 }`}
               onClick={() => setSection("injectables")}
             >
-              Injectables ({countFor("injectables")})
+              injections ({countFor("injectables")})
             </button>
             <button
               className={`tab ${activeSection === "tablets" ? "active" : ""}`}
@@ -625,7 +625,7 @@ export default function Dashboard() {
                 <p className="mb-4">
                   Are you sure you want to delete this product?
                 </p>
-                
+
                 {deleteError && (
                   <div className="text-red-500 mb-3" role="alert">
                     {String(deleteError)}
