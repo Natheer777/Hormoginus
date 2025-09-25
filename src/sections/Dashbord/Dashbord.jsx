@@ -23,27 +23,30 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
   function handleChange(e) {
     const { name, files } = e.target;
     let { value } = e.target;
+    
     // Handle multi-file inputs for images/videos
     if (name === "images" || name === "videos") {
       const list = files ? Array.from(files) : [];
       setForm((f) => ({ ...f, [name]: list }));
       return;
     }
-    // Normalize numeric fields to numbers (or empty string if cleared)
+    
+    // معالجة الحقول الرقمية - إبقاء القيمة كـ string بدلاً من تحويلها فوراً
     const numericFields = [
       "price",
-      "strength",
+      "strength", 
       "side_effects",
       "muscle_gain",
       "keep_gains",
       "fat_water",
     ];
+    
     if (numericFields.includes(name)) {
-      const normalized = value === "" ? "" : Number(value);
-      setForm((f) => ({ ...f, [name]: normalized }));
+      // إبقاء القيمة كما هي (string) بدلاً من تحويلها لـ Number
+      setForm((f) => ({ ...f, [name]: value }));
       return;
     }
-    // Legacy single-file support removed (we now use images/videos arrays)
+    
     setForm((f) => ({ ...f, [name]: value }));
   }
 
@@ -287,8 +290,7 @@ function ProductForm({ initial, onSave, onClose, isLoading }) {
   );
 }
 
-
-export default function Dashboard(props) {
+export default function Dashboard() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
@@ -394,75 +396,6 @@ export default function Dashboard(props) {
   // Fixed mapping per request: Injectables -> 1, Tablets -> 2
   const secIdForActiveTab = activeSection === "injectables" ? 1 : 2;
 
-  // Normalize payload to ensure numeric fields are numbers and not null
- function normalizeProductPayload(data, sec_id, maybePid) {
-  const numericKeys = [
-    "price",
-    "strength", 
-    "side_effects",
-    "muscle_gain",
-    "keep_gains",
-    "fat_water",
-  ];
-  
-  const normalized = { ...data };
-  
-  numericKeys.forEach((key) => {
-    const value = normalized[key];
-    
-    // Only convert to number if value exists and is not empty string
-    if (value !== "" && value !== null && value !== undefined) {
-      const numValue = Number(value);
-      // Only assign if it's a valid number
-      if (!isNaN(numValue)) {
-        normalized[key] = numValue;
-      }
-    }
-    // If value is empty string, keep it as empty string (don't convert to 0)
-    // If value is null/undefined, keep as is (will be handled by backend)
-  });
-  
-  if (typeof sec_id !== "undefined") normalized.sec_id = sec_id;
-  if (typeof maybePid !== "undefined") normalized.p_id = maybePid;
-  
-  return normalized;
-}
-
-// Alternative approach - more explicit handling
-function normalizeProductPayloadAlternative(data, sec_id, maybePid) {
-  const numericKeys = [
-    "price",
-    "strength", 
-    "side_effects", 
-    "muscle_gain",
-    "keep_gains",
-    "fat_water",
-  ];
-  
-  const normalized = { ...data };
-  
-  numericKeys.forEach((key) => {
-    const value = normalized[key];
-    
-    if (typeof value === 'string' && value.trim() !== '') {
-      // Convert non-empty strings to numbers
-      const numValue = Number(value);
-      if (!isNaN(numValue)) {
-        normalized[key] = numValue;
-      }
-    } else if (value === '' || value === null || value === undefined) {
-      // Keep empty strings as empty strings for controlled inputs
-      // Backend should handle empty strings appropriately
-      normalized[key] = '';
-    }
-  });
-  
-  if (typeof sec_id !== "undefined") normalized.sec_id = sec_id;
-  if (typeof maybePid !== "undefined") normalized.p_id = maybePid;
-  
-  return normalized;
-}
-
   return (
     <div className="dash">
       <div className="dashboard-bg min-h-screen p-8">
@@ -476,8 +409,7 @@ function normalizeProductPayloadAlternative(data, sec_id, maybePid) {
             <div className="toolbar-left">
               <input
                 className="toolbar-search"
-                placeholder="Search by name 
-            "
+                placeholder="Search by name"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -657,7 +589,7 @@ function normalizeProductPayloadAlternative(data, sec_id, maybePid) {
               }}
               onSave={(data) => {
                 const sec_id = secIdForActiveTab;
-                const payload = normalizeProductPayload(data, sec_id);
+                const payload = { ...data, sec_id };
                 createMutation.mutate(payload);
               }}
               onClose={() => setShowForm(false)}
@@ -667,10 +599,19 @@ function normalizeProductPayloadAlternative(data, sec_id, maybePid) {
 
           {editProduct && (
             <ProductForm
-              initial={editProduct}
+              initial={{
+                ...editProduct,
+                // ضمان أن القيم الرقمية ليست null
+                strength: editProduct.strength || "",
+                side_effects: editProduct.side_effects || "",
+                muscle_gain: editProduct.muscle_gain || "",
+                keep_gains: editProduct.keep_gains || "",
+                fat_water: editProduct.fat_water || "",
+                price: editProduct.price || "",
+              }}
               onSave={(data) => {
                 const sec_id = secIdForActiveTab;
-                const payload = normalizeProductPayload(data, sec_id, editProduct.p_id);
+                const payload = { ...data, sec_id, p_id: editProduct.p_id };
                 updateMutation.mutate(payload);
               }}
               onClose={() => setEditProduct(null)}
@@ -718,8 +659,6 @@ function normalizeProductPayloadAlternative(data, sec_id, maybePid) {
               </div>
             </div>
           )}
-
-       
         </div>
       </div>
     </div>

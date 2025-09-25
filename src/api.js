@@ -19,27 +19,37 @@ export async function logout(id, token) {
 }
 
 export async function getAllProducts() {
-  const res = await fetch(`${BASE_URL}/get_full_info.php`);
+  const res = await fetch(`${BASE_URL}get_full_info.php`);
   const result = await res.json();
+  
   // Helper to normalize a single product from the API, ensuring numbers and defaulting nulls
   const normalizeProductFromApi = (p) => {
     if (!p || typeof p !== 'object') return p;
     const copy = { ...p };
+    
     const toNumberOr = (val, fallback = 0) => {
       if (val === '' || val === null || val === undefined) return fallback;
       const n = Number(val);
       return isNaN(n) ? fallback : n;
     };
+    
+    const toStringOrEmpty = (val) => {
+      if (val === null || val === undefined || val === '') return '';
+      return String(val);
+    };
+    
     // Coerce id and price
     if ('p_id' in copy) copy.p_id = toNumberOr(copy.p_id, copy.p_id);
     if ('id' in copy && (copy.p_id == null)) copy.p_id = toNumberOr(copy.id, copy.id);
     copy.price = toNumberOr(copy.price, 0);
-    // Metrics 0-100: default to 0 if null/empty
-    copy.strength = toNumberOr(copy.strength, 0);
-    copy.side_effects = toNumberOr(copy.side_effects, 0);
-    copy.muscle_gain = toNumberOr(copy.muscle_gain, 0);
-    copy.keep_gains = toNumberOr(copy.keep_gains, 0);
-    copy.fat_water = toNumberOr(copy.fat_water, 0);
+    
+    // Convert null metrics to empty strings for form compatibility
+    copy.strength = toStringOrEmpty(copy.strength);
+    copy.side_effects = toStringOrEmpty(copy.side_effects);
+    copy.muscle_gain = toStringOrEmpty(copy.muscle_gain);
+    copy.keep_gains = toStringOrEmpty(copy.keep_gains);
+    copy.fat_water = toStringOrEmpty(copy.fat_water);
+
     return copy;
   };
 
@@ -55,7 +65,7 @@ export async function getAllProducts() {
 }
 
 export async function getProductByName(name) {
-  const res = await fetch(`${BASE_URL}/get_product_by_id.php`, {
+  const res = await fetch(`${BASE_URL}get_product_by_id.php`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name }),
@@ -95,12 +105,41 @@ export async function createProduct({
   if (how_to_use != null) formData.append("how_to_use", String(how_to_use));
   // Legacy key for backend compatibility
   if (how_to_use != null) formData.append("method_of_use", String(how_to_use));
-  if (price !== "" && price != null) formData.append("price", String(price));
   if (qr_code != null) formData.append("qr_code", String(qr_code));
   if (warnings != null) formData.append("warnings", String(warnings));
   if (vial != null) formData.append("vial", String(vial));
   if (caliber != null) formData.append("caliber", String(caliber));
   if (sec_id != null) formData.append("sec_id", String(Number(sec_id)));
+
+  // معالجة الحقول الرقمية - إرسالها دائماً إذا كانت موجودة وليست فارغة
+  if (price !== undefined && price !== null && price !== '') {
+    formData.append("price", String(price));
+  }
+  if (strength !== undefined && strength !== null && strength !== '') {
+    formData.append("strength", String(strength));
+  }
+  if (side_effects !== undefined && side_effects !== null && side_effects !== '') {
+    formData.append("side_effects", String(side_effects));
+  }
+  if (muscle_gain !== undefined && muscle_gain !== null && muscle_gain !== '') {
+    formData.append("muscle_gain", String(muscle_gain));
+  }
+  if (keep_gains !== undefined && keep_gains !== null && keep_gains !== '') {
+    formData.append("keep_gains", String(keep_gains));
+  }
+  if (fat_water !== undefined && fat_water !== null && fat_water !== '') {
+    formData.append("fat_water", String(fat_water));
+  }
+
+  // Debug logging
+  console.log('FormData metrics:', {
+    strength: formData.get('strength'),
+    side_effects: formData.get('side_effects'),
+    muscle_gain: formData.get('muscle_gain'),
+    keep_gains: formData.get('keep_gains'),
+    fat_water: formData.get('fat_water')
+  });
+
   // Files: if user selected a File, append it; if it's a string URL, also append as string for backend compatibility
   // Decide video file to send: prefer vid_url, else first of videos
   const videoFile =
@@ -118,6 +157,7 @@ export async function createProduct({
   } else if (Array.isArray(videos) && typeof videos[0] === "string") {
     formData.append("vid_url", String(videos[0]));
   }
+  
   // Decide image file to send: prefer img_url, else first of images
   const imageFile =
     img_url instanceof File
@@ -134,11 +174,6 @@ export async function createProduct({
   } else if (Array.isArray(images) && typeof images[0] === "string") {
     formData.append("img_url", String(images[0]));
   }
-  if (strength !== "" && strength != null) formData.append("strength", String(strength));
-  if (side_effects !== "" && side_effects != null) formData.append("side_effects", String(side_effects));
-  if (muscle_gain !== "" && muscle_gain != null) formData.append("muscle_gain", String(muscle_gain));
-  if (keep_gains !== "" && keep_gains != null) formData.append("keep_gains", String(keep_gains));
-  if (fat_water !== "" && fat_water != null) formData.append("fat_water", String(fat_water));
 
   const res = await fetch("https://hormogenius.com/api/dashboard/CreateProduct.php", {
     method: "POST",
@@ -148,6 +183,10 @@ export async function createProduct({
     throw new Error(`HTTP error! status: ${res.status}`);
   }
   const data = await res.json();
+  
+  // Debug: طباعة رد الـ API
+  console.log('API Response:', data);
+  
   if (data && data.status === "success") return data;
   throw new Error(data?.message || "Failed to create product");
 }
@@ -182,12 +221,32 @@ export async function updateProduct({
   if (description != null) formData.append("description", String(description));
   if (science_name != null) formData.append("science_name", String(science_name));
   if (how_to_use != null) formData.append("how_to_use", String(how_to_use));
-  if (price !== "" && price != null) formData.append("price", String(price));
   if (qr_code != null) formData.append("qr_code", String(qr_code));
   if (warnings != null) formData.append("warnings", String(warnings));
   if (vial != null) formData.append("vial", String(vial));
   if (caliber != null) formData.append("caliber", String(caliber));
   if (sec_id != null) formData.append("sec_id", String(Number(sec_id)));
+
+  // معالجة الحقول الرقمية - إرسالها دائماً إذا كانت موجودة وليست فارغة
+  if (price !== undefined && price !== null && price !== '') {
+    formData.append("price", String(price));
+  }
+  if (strength !== undefined && strength !== null && strength !== '') {
+    formData.append("strength", String(strength));
+  }
+  if (side_effects !== undefined && side_effects !== null && side_effects !== '') {
+    formData.append("side_effects", String(side_effects));
+  }
+  if (muscle_gain !== undefined && muscle_gain !== null && muscle_gain !== '') {
+    formData.append("muscle_gain", String(muscle_gain));
+  }
+  if (keep_gains !== undefined && keep_gains !== null && keep_gains !== '') {
+    formData.append("keep_gains", String(keep_gains));
+  }
+  if (fat_water !== undefined && fat_water !== null && fat_water !== '') {
+    formData.append("fat_water", String(fat_water));
+  }
+
   // videos/images can be File, array of File, or string path; prefer vid_url/img_url if File, else fallback to first of videos/images
   const updVideoFile =
     vid_url instanceof File
@@ -204,6 +263,7 @@ export async function updateProduct({
   } else if (Array.isArray(videos) && typeof videos[0] === "string") {
     formData.append("vid_url", String(videos[0]));
   }
+  
   const updImageFile =
     img_url instanceof File
       ? img_url
@@ -219,11 +279,6 @@ export async function updateProduct({
   } else if (Array.isArray(images) && typeof images[0] === "string") {
     formData.append("img_url", String(images[0]));
   }
-  if (strength !== "" && strength != null) formData.append("strength", String(strength));
-  if (side_effects !== "" && side_effects != null) formData.append("side_effects", String(side_effects));
-  if (muscle_gain !== "" && muscle_gain != null) formData.append("muscle_gain", String(muscle_gain));
-  if (keep_gains !== "" && keep_gains != null) formData.append("keep_gains", String(keep_gains));
-  if (fat_water !== "" && fat_water != null) formData.append("fat_water", String(fat_water));
 
   const res = await fetch("https://hormogenius.com/api/dashboard/UpdateProduct.php", {
     method: "POST",
